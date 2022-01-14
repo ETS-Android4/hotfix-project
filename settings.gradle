@@ -1,10 +1,10 @@
 include ':app'
-//include ':autopatchbase'
-//include ':patch'
+include ':autopatchbase'
+include ':patch'
 
 //发布
-//include 'gradle-plugin'
-//include 'auto-patch-plugin'
+include 'gradle-plugin'
+include 'auto-patch-plugin'
 
 //调试
 //includeBuild 'gradle-plugin'

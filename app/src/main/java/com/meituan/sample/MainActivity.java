@@ -10,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meituan.robust.PatchExecutor;
+import com.meituan.robust.patch.RobustModify;
+import com.meituan.robust.patch.annotaion.Modify;
+
 /**
  * For users of Robust you may only to use MainActivity or SecondActivity,other classes are used for test.<br>
  * <br>
@@ -21,7 +24,7 @@ import com.meituan.robust.PatchExecutor;
  * <br>
  * "JUMP_SECOND_ACTIVITY" button will jump to the second ACTIVITY,so you can patch a Activity.<br>
  * <br>
- * Attention to this ,We recommend that one patch is just for one built apk ,because every  built apk has its unique mapping.txt and resource id<br>
+ * Attention to this ,We recommend that one patch is just for one built apk ,because every  built apk has its unique mapping-r8.txt and resource id<br>
  *
  * @author mivanzhang
  */
@@ -62,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.jump_kotlin_activity).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, KotlinActivity.class);
-                startActivity(intent);
+//                Toast.makeText(MainActivity.this, "Coba", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(MainActivity.this, KotlinActivity.class);
+//                startActivity(intent);
             }
         });
 
@@ -80,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
         return PermissionUtils.isGrantSDCardReadPermission(this);
     }
 
+//    @Modify
     private void requestPermission() {
+//        Toast.makeText(MainActivity.this, "Coba", Toast.LENGTH_SHORT).show();
         PermissionUtils.requestSDCardReadPermission(this, REQUEST_CODE_SDCARD_READ);
     }
 

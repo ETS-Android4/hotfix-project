@@ -55,7 +55,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     public String getTextInfo() {
         getArray();
 //        return "error occur " ;
-        return "error fixed";
+        return "error fixed version r8 AGP7 new";
     }
 
 //    public String getTextInfo() {

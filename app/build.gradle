@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-//apply plugin: 'auto-patch-plugin'
-apply plugin: 'robust'
+apply plugin: 'auto-patch-plugin'
+//apply plugin: 'robust'
 
 android {
     compileSdkVersion build_versions.compile_sdk
@@ -14,8 +14,8 @@ android {
 
     defaultConfig {
         applicationId "com.meituan.robust.sample"
-        minSdkVersion 14
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -64,15 +64,15 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 dependencies {
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:28.0.0'
-    compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.android.support:design:28.0.0'
-    compile 'org.javassist:javassist:3.22.0-GA'
-//    compile project(path: ':patch')
-    compile 'com.meituan.robust:robust:0.4.99'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.squareup.okhttp:okhttp:2.5.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'org.javassist:javassist:3.28.0-GA'
+    implementation project(':patch')
+//    implementation 'com.meituan.robust:robust:0.4.99'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

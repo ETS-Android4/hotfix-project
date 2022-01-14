@@ -1,10 +1,9 @@
 apply plugin: 'groovy'
-apply plugin: 'maven'
-//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven-publish'
 
-group = 'com.effective.plugins'
-archivesBaseName = 'aotu-patch-plugin'
-version = '1.0.8'
+group = 'com.robust.plugins'
+archivesBaseName = 'auto-patch-plugin'
+version = '2.0.1'
 
 compileGroovy {
     sourceCompatibility = 1.7
@@ -20,9 +19,9 @@ repositories {
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.android.tools.build:gradle:3.6.0'
-    implementation 'org.javassist:javassist:3.22.0-GA'
-    implementation 'com.meituan.robust:autopatchbase:0.4.99'
+    implementation 'com.android.tools.build:gradle:4.2.1'
+    implementation 'org.javassist:javassist:3.28.0-GA'
+    implementation 'com.robust.plugins:autopatchbase:2.0.0'
 }
 
 sourceSets {
@@ -30,17 +29,16 @@ sourceSets {
         groovy {
             srcDirs = ['src/main/groovy']
         }
-        java {
-            srcDirs = ['src/main/java']
-        }
     }
 }
 
-//publish {
-//    userOrg = 'yummylau'
-//    groupId = 'com.effective.android'
-//    artifactId = 'gradle-plugin-fix'
-//    publishVersion = '0.4.99.1'
-//    desc = 'the helper that is used to checkout panel when we are chatting'
-//    website = 'https://github.com/YummyLau/Anchors'
-//}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}

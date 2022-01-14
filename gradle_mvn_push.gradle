@@ -1,52 +1,66 @@
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+group = GROUP
+version = VERSION_NAME
 
-def getPropertyFromLocalProperties(key) {
-    File file = project.rootProject.file('local.properties');
-    if (file.exists()) {
-        Properties properties = new Properties()
-        properties.load(file.newDataInputStream());
-        return properties.getProperty(key)
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
     }
 }
 
-def getRepositoryUrl() {
-    return isSnapshot() ? getPropertyFromLocalProperties("SNAPSHOT_REPOSITORY_URL") : getPropertyFromLocalProperties("RELEASE_REPOSITORY_URL")
-//    return isSnapshot() ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
-}
-
-def isSnapshot() {
-    return version.endsWith("SNAPSHOT");
-}
-
-def hasAndroidPlugin() {
-    return getPlugins().inject(false) { a, b->
-        def classStr = b.getClass().name
-        def isAndroid = ("com.android.build.gradle.LibraryPlugin" == classStr) || ("com.android.build.gradle.AppPlugin" == classStr)
-        a || isAndroid
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy']
+        }
+        java {
+            srcDirs = ['src/main/java']
+        }
     }
 }
-task sourcesJar(type: Jar) {
-    if (hasAndroidPlugin()) {
-        from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
-    } else {
-        from sourceSets.main.allSource
-        classifier = 'sources'
-    }
-}
-artifacts {
-    archives sourcesJar
-}
 
-uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: uri('../repo')) //仓库的路径，此处是项目根目录下的 repo 的文件夹
-        pom.groupId = 'com.app.plugin'  //groupId ，自行定义，一般是包名
-        pom.artifactId = 'autopatchplugin' //artifactId ，自行定义
-        pom.version = '1.0.0' //version 版本号
-    }
-}
+//def getPropertyFromLocalProperties(key) {
+//    File file = project.rootProject.file('local.properties');
+//    if (file.exists()) {
+//        Properties properties = new Properties()
+//        properties.load(file.newDataInputStream());
+//        return properties.getProperty(key)
+//    }
+//}
+//
+//def getRepositoryUrl() {
+//    return isSnapshot() ? getPropertyFromLocalProperties("SNAPSHOT_REPOSITORY_URL") : getPropertyFromLocalProperties("RELEASE_REPOSITORY_URL")
+////    return isSnapshot() ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
+//}
+//
+//def isSnapshot() {
+//    return version.endsWith("SNAPSHOT");
+//}
+//
+//def hasAndroidPlugin() {
+//    return getPlugins().inject(false) { a, b->
+//        def classStr = b.getClass().name
+//        def isAndroid = ("com.android.build.gradle.LibraryPlugin" == classStr) || ("com.android.build.gradle.AppPlugin" == classStr)
+//        a || isAndroid
+//    }
+//}
+//task sourcesJar(type: Jar) {
+//    if (hasAndroidPlugin()) {
+//        from android.sourceSets.main.java.srcDirs
+//        classifier = 'sources'
+//    } else {
+//        from sourceSets.main.allSource
+//        classifier = 'sources'
+//    }
+//}
+//artifacts {
+//    archives sourcesJar
+//}
 
 //uploadArchives {
 //    repositories.mavenDeployer {

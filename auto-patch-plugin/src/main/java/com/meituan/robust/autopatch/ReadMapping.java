@@ -36,6 +36,8 @@ public class ReadMapping {
 
     /***
      * read all class mapping info
+     *
+     * @return
      */
     public void initMappingInfo() {
         //查找mapping文件
@@ -68,16 +70,19 @@ public class ReadMapping {
                             needBacktrace = true;
                             break;
                         }
-                        String[] lineinfo = line.split(" ");
-                        if (lineinfo.length != 4) {
-                            throw new RuntimeException("mapping line info is error  " + line);
-                        }
-                        if (lineinfo[1].contains("(") && lineinfo[1].contains(")")) {
-                            //methods need return type
-                            classMapping.getMemberMapping().put(getMethodSigureWithReturnTypeInMapping(lineinfo[0].trim(), lineinfo[1].trim()), lineinfo[3].trim());
-                        } else {
-                            //fields
-                            classMapping.getMemberMapping().put(lineinfo[1].trim(), lineinfo[3].trim());
+                        if(!line.startsWith("#")) {
+                            System.out.println("line : "+line);
+                            String[] lineinfo = line.split(" ");
+                            if (lineinfo.length != 4) {
+                                throw new RuntimeException("mapping line info is error  " + line + " line length : "+lineinfo.length);
+                            }
+                            if (lineinfo[1].contains("(") && lineinfo[1].contains(")")) {
+                                //methods need return type
+                                classMapping.getMemberMapping().put(getMethodSigureWithReturnTypeInMapping(lineinfo[0].trim(), lineinfo[1].trim()), lineinfo[3].trim());
+                            } else {
+                                //fields
+                                classMapping.getMemberMapping().put(lineinfo[1].trim(), lineinfo[3].trim());
+                            }
                         }
                         line = reader.readLine();
                         if (line == null) {
