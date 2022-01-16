@@ -1,0 +1,3 @@
+rootProject.name = 'auto-patch-plugin'
+include ':robust-plugin:autopatchbase'
+project(':robust-plugin:autopatchbase').projectDir = new File('../autopatchbase')
