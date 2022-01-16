@@ -1,7 +1,7 @@
 def build_versions = [:]
 build_versions.min_sdk = 21
-build_versions.target_sdk = 30
-build_versions.compile_sdk = 30
+build_versions.target_sdk = 31
+build_versions.compile_sdk = 31
 build_versions.build_tools = "30.0.2"
 build_versions.java_source = JavaVersion.VERSION_1_8
 build_versions.java_target = JavaVersion.VERSION_1_8
