@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
         Button patch = (Button) findViewById(R.id.patch);
-        //beigin to patch
+        //begin to patch
         patch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
         return PermissionUtils.isGrantSDCardReadPermission(this);
     }
 
-//    @Modify
     private void requestPermission() {
-//        Toast.makeText(MainActivity.this, "Coba", Toast.LENGTH_SHORT).show();
         PermissionUtils.requestSDCardReadPermission(this, REQUEST_CODE_SDCARD_READ);
     }
 

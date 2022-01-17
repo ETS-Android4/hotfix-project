@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion build_versions.compile_sdk
+    buildToolsVersion build_versions.build_tools
+
+    compileOptions {
+        sourceCompatibility build_versions.java_source
+        targetCompatibility build_versions.java_target
+    }
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName '1.0'
+    }
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+        exclude 'META-INF/maven/commons-cli/commons-cli/pom.properties'
+        exclude 'META-INF/maven/commons-cli/commons-cli/pom.xml'
+    }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+dependencies {
+//    compile 'com.meituan.robust:autopatchbase:' + VERSION_NAME
+//    api project(':plugins:autopatchbase')
+
+    api 'com.robust.plugins:autopatchbase:2.0.0'
+}
+
+//apply from: '../gradle_mvn_push.gradle'

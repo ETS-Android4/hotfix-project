@@ -1,0 +1,3 @@
+rootProject.name = 'auto-patch-plugin'
+include ':plugins:autopatchbase'
+project(':plugins:autopatchbase').projectDir = new File('../autopatchbase')

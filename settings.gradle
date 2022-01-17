@@ -1,10 +1,11 @@
 include ':app'
-include ':robust-plugin:autopatchbase'
-include ':robust-plugin:patch'
+include ':plugins:autopatchbase'
+include ':plugins:patch'
 
 //发布
-include 'robust-plugin:gradle-plugin'
-include 'robust-plugin:auto-patch-plugin'
+include 'plugins:gradle-plugin'
+include 'plugins:auto-patch-plugin'
+include 'plugins:preprocessor'
 
 //调试
 //includeBuild 'gradle-plugin'

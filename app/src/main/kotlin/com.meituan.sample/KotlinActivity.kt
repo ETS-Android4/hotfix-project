@@ -13,7 +13,7 @@
 //
 //class KotlinActivity : AppCompatActivity(), View.OnClickListener {
 //    private var listView: ListView? = null
-//    private val multiArr = arrayOf("列表1", "列表2", "列表3", "列表4")
+//    private val multiArr = arrayOf("List 1", "List 2", "List 3", "List 4")
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main2)

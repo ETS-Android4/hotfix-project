@@ -1,0 +1,57 @@
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+
+group = 'com.robust.plugins'
+archivesBaseName = 'preprocessor'
+version = '2.0.2'
+
+compileGroovy {
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+}
+
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.5.4'
+    implementation 'org.javassist:javassist:3.28.0-GA'
+    implementation fileTree(dir: "./src/main/libs", include: ['*.jar'])
+    implementation 'com.robust.plugins:autopatchbase:2.0.0'
+    implementation 'org.ow2.asm:asm:5.0.1'
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/groovy']
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+//publish {
+//    userOrg = 'yummylau'
+//    groupId = 'com.effective.android'
+//    artifactId = 'auto-patch-plugin-fix'
+//    publishVersion = '0.4.99.1'
+//    desc = 'the helper that is used to checkout panel when we are chatting'
+//    website = 'https://github.com/YummyLau/Anchors'
+//}
+

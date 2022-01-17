@@ -24,7 +24,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
     protected static String name = "SecondActivity";
     private ListView listView;
-    private String[] multiArr = {"列表1", "列表2", "列表3", "列表4"};
+    private String[] multiArr = {"List 1", "List 2", "List 3", "List 4"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,6 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(SecondActivity.this, "fix", Toast.LENGTH_LONG).show();
                 }
         );
-//        textView.setOnClickListener(v -> {
-//                    Toast.makeText(SecondActivity.this, "occur", Toast.LENGTH_LONG).show();
-//                }
-//        );
         //change text on the  SecondActivity
         textView.setText(getTextInfo());
 
@@ -55,13 +51,9 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     public String getTextInfo() {
         getArray();
 //        return "error occur " ;
-        return "error fixed version r8 AGP7 new";
+        return "error fixed version r8 AGP7";
     }
 
-//    public String getTextInfo() {
-//        getArray();
-//        return "error occur ";
-//    }
 
     public String[] getArray() {
         return new String[]{"hello", "world"};
