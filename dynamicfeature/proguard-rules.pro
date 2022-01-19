@@ -23,3 +23,10 @@
 -dontwarn android.support.v4.**,**CompatHoneycomb,com.tenpay.android.**
 -optimizations !class/unboxing/enum,!code/simplification/arithmetic
 
+
+# Hansel proguard rules
+-dontwarn io.hansel.**
+-keep class io.hansel.**{*;}
+-keep class **.HanselDialog.*{*;}
+-keep class * implements io.hansel.**.* {*;}
+-keep class * extends io.hansel.**.* {*;}

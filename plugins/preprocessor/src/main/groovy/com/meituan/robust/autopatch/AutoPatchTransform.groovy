@@ -73,7 +73,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
 
     @Override
     Set<QualifiedContent.Scope> getScopes() {
-        return TransformManager.SCOPE_FULL_PROJECT
+        return TransformManager.SCOPE_FULL_WITH_FEATURES
     }
 
     @Override

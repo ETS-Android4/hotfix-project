@@ -38,7 +38,7 @@ class InlineClassFactory {
         inLineClassNameSet.addAll(classInLineMethodsMap.keySet())
         //all inline patch class
         createHookInlineClass(inLineClassNameSet)
-        //针对修改类的linepatch
+        //linepatch for modified classes
         for (String fullClassName : inLineClassNameSet) {
             CtClass inlineClass = Config.classPool.get(fullClassName);
             List<String> inlineMethod = classInLineMethodsMap.getOrDefault(fullClassName, new ArrayList<String>());
@@ -74,17 +74,17 @@ class InlineClassFactory {
 /***
  *
  * @param usedClass
- * @param patchMethodSignureSet 只查找指定的方法体来确认内联类，如果全部的类则传递null
+ * @param patchMethodSignureSet only finds the specified method body to confirm the inline class, if all classes pass null
  * @return
  */
     def Set getAllInlineClasses(Set usedClass, Set patchMethodSignureSet) {
         HashSet temInLineFirstSet = initInLineClass(usedClass, patchMethodSignureSet);
         HashSet temInLineSecondSet = initInLineClass(temInLineFirstSet, patchMethodSignureSet);
         temInLineSecondSet.addAll(temInLineFirstSet);
-        //第一次temInLineFirstSet要和temInLineSecondSet第二次获取的内联类数量相同，则表明找出了所有的内联类
+        //The number of inline classes acquired by temInLineFirstSet for the first time and temInLineSecondSet for the second time is the same, indicating that all inline classes have been found.
         while ((temInLineFirstSet.size() < temInLineSecondSet.size())) {
             temInLineFirstSet.addAll(initInLineClass(temInLineSecondSet, patchMethodSignureSet));
-            //这个循环有点饶人，initInLineClass返回的是temInLineListSecond中所有的内联类
+            //This loop is a bit forgiving, initInLineClass returns all the inline classes in temInLineListSecond
             temInLineSecondSet.addAll(initInLineClass(temInLineFirstSet, patchMethodSignureSet));
         }
 
@@ -114,7 +114,7 @@ class InlineClassFactory {
             modifiedCtclass = Config.classPool.get(fullClassName)
             modifiedCtclass.declaredMethods.each {
                 method ->
-                    //找出modifiedclass中所有内联的类
+                    //Find all inlined classes in modifiedclass
                     allPatchMethodSignureSet.addAll(classInLineMethodsMap.getOrDefault(fullClassName, new ArrayList()))
                     if (isNewClass||allPatchMethodSignureSet.contains(method.longName)) {
 //                        isNewClass=false;

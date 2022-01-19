@@ -3,7 +3,7 @@ apply plugin: 'maven-publish'
 
 group = 'com.robust.plugins'
 archivesBaseName = 'preprocessor'
-version = '2.0.2'
+version = '2.0.3'
 
 compileGroovy {
     sourceCompatibility = 1.7

@@ -6,9 +6,10 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import com.meituan.robust.patch.annotaion.Modify
+import com.meituan.sample.BaseSplitActivity
 import java.lang.reflect.Field
 
-class DynamicMainActivity : AppCompatActivity(), View.OnClickListener {
+class DynamicMainActivity : BaseSplitActivity(), View.OnClickListener {
     private var listView: ListView? = null
     private val multiArr = arrayOf("List 1", "List 2", "List 3", "List 4")
 
@@ -18,13 +19,8 @@ class DynamicMainActivity : AppCompatActivity(), View.OnClickListener {
         listView = findViewById<View>(R.id.listview) as ListView
         val textView = findViewById<View>(R.id.secondtext) as TextView
         textView.setOnClickListener { v: View? ->
-//            RobustModify.modify()
-//            Log.d("asas", "Log")
             Toast.makeText(this@DynamicMainActivity, "fix", Toast.LENGTH_LONG).show()
         }
-//        textView.setOnClickListener { v: View? ->
-//            Toast.makeText(this@KotlinActivity, "occur", Toast.LENGTH_LONG).show()
-//        }
         //change text on the  SecondActivity
         textView.text = getTextInfo()
 
@@ -37,14 +33,9 @@ class DynamicMainActivity : AppCompatActivity(), View.OnClickListener {
     @Modify
     private fun getTextInfo(): String {
         array
-//        return "error occured";
-        return "error fixed"
+        return "Fix Error";
     }
 
-//    private fun getTextInfo(): String {
-//        array
-//        return "error occur";
-//    }
 
     val array: Array<String>
         get() = arrayOf("hello", "world")

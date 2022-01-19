@@ -47,13 +47,13 @@
         android:text="jump_second_activity" />
 
     <Button
-        android:id="@+id/jump_kotlin_activity"
+        android:id="@+id/jump_dynamic_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/jump_second_activity"
         android:layout_marginTop="10dp"
-        android:text="jump_kotlin_activity" />
+        android:text="jump_dynamic_activity" />
 
 </RelativeLayout>

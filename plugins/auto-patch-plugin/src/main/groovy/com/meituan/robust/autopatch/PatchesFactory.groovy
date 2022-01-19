@@ -35,17 +35,17 @@ class PatchesFactory {
         //just keep  methods need patch
         if (patchMethodSignureSet.size() != 0) {
             for (CtMethod method : modifiedClass.getDeclaredMethods()) {
-                //新增方法需要保留在补丁类中
+                //The new method needs to be kept in the patch class
                 if (!Config.supportProGuard && Config.newlyAddedMethodSet.contains(method.longName)) {
                     continue;
                 }
-                //不是被补丁的方法
+                //Not the way to be patched
                 if ((!patchMethodSignureSet.contains(method.getLongName()) ||
-                        //不是内联并且是新增的方法
+                        //Not inline and new method
                         (!isInline && Config.methodMap.get(modifiedClass.getName() + "." + JavaUtils.getJavaMethodSignure(method)) == null))) {
                     methodNoNeedPatchList.add(method);
                 } else {
-                    //移除methodNeedPatchSet中需要补丁的方法，留在补丁类中的方法默认全部会被处理
+                    //Remove the methods that need to be patched in methodNeedPatchSet, and all methods left in the patch class will be processed by default
                     Config.methodNeedPatchSet.remove(method.getLongName());
                 }
             }

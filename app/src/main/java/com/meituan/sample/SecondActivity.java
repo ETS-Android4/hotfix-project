@@ -34,8 +34,8 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         listView = (ListView) findViewById(R.id.listview);
         TextView textView = (TextView) findViewById(R.id.secondtext);
         textView.setOnClickListener(v -> {
-                    RobustModify.modify();
-                    Toast.makeText(SecondActivity.this, "fix", Toast.LENGTH_LONG).show();
+//                    RobustModify.modify();
+                    Toast.makeText(SecondActivity.this, "occur", Toast.LENGTH_LONG).show();
                 }
         );
         //change text on the  SecondActivity

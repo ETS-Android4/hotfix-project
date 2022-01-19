@@ -192,7 +192,7 @@ public class PatchProxy {
             return;
         }
         for (RobustExtension robustExtension : registerExtensionList) {
-            robustExtension.notifyListner(info);
+            robustExtension.notifyListener(info);
         }
     }
 
