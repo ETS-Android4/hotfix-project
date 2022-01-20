@@ -25,7 +25,7 @@ public class Constants {
     public static final String ZIP_FILE_NAME = "meituan.jar";
     public static final String PATACH_DEX_NAME = "patch.dex";
     public static final String CLASSES_DEX_NAME = "classes.dex";
-    public static final String PATACH_JAR_NAME = "patch.jar";
+    public static final String PATCH_JAR_NAME = "patch.jar";
     public static final String PATCH_SUFFIX = "Patch";
     public static final String PATCH_CONTROL_SUFFIX = "Control";
     public static final String INLINE_PATCH_SUFFIX = "InLinePatch";
@@ -81,7 +81,6 @@ public class Constants {
         RFileClassSet.add("R$anim");
     }
 
-    //=========================RobustTransForm========================
     //=========================RobustTransForm========================
     public static final String CONSTRUCTOR = "Constructor";
     public static final String LANG_VOID = "java.lang.Void";

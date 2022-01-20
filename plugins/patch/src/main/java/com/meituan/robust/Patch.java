@@ -7,7 +7,7 @@ import java.io.File;
  * 补丁定义
  */
 public class Patch implements Cloneable {
-    //补丁的编号，补丁的唯一标识符
+    //The number of the patch, the unique identifier of the patch
     public String getName() {
         return name;
     }
@@ -23,7 +23,7 @@ public class Patch implements Cloneable {
     public void setUrl(String url) {
         this.url = url;
     }
-    //原始补丁文件的路径，推荐放到私有目录
+    //The path of the original patch file, it is recommended to put it in a private directory
     public String getLocalPath() {
         return localPath + ".jar";
     }
@@ -51,7 +51,7 @@ public class Patch implements Cloneable {
      */
     private String url;
     /**
-     * 补丁本地保存路径
+     * Patch local save path
      */
     private String localPath;
 

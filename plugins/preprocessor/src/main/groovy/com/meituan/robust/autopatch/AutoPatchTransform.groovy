@@ -49,7 +49,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
         ReadMapping.init();
         Config.init();
 
-        ROBUST_DIR = "${project.projectDir}${File.separator}robust${File.separator}"
+        ROBUST_DIR = "${project.rootDir.path}${File.separator}robust${File.separator}"
         def baksmaliFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[0]}"
         def smaliFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[1]}"
         def dxFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[2]}"
@@ -57,8 +57,8 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
         dex2SmaliCommand = "  java -jar ${baksmaliFilePath} -o classout" + File.separator + "  $Constants.CLASSES_DEX_NAME";
         smali2DexCommand = "   java -jar ${smaliFilePath} classout" + File.separator + " -o "+Constants.PATACH_DEX_NAME;
         jar2DexCommand = "   java -jar ${dxFilePath} --dex --output=$Constants.CLASSES_DEX_NAME  " + Constants.ZIP_FILE_NAME;
-        ReadXML.readXMl(project.projectDir.path);
-        Config.methodMap = JavaUtils.getMapFromZippedFile(project.projectDir.path + Constants.METHOD_MAP_PATH)
+        ReadXML.readXMl(project.rootDir.path);
+        Config.methodMap = JavaUtils.getMapFromZippedFile(project.rootDir.path + Constants.METHOD_MAP_PATH)
     }
 
     @Override
@@ -209,7 +209,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
             diretcory.listFiles(new FilenameFilter() {
                 @Override
                 boolean accept(File file, String s) {
-                    return !(Constants.PATACH_JAR_NAME.equals(s))
+                    return !(Constants.PATCH_JAR_NAME.equals(s))
                 }
             }).each {
                 if(it.isDirectory()){
@@ -287,7 +287,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
         if (!inputFile.exists() || !inputFile.canRead()) {
             throw new RuntimeException("patch.dex is not exists or readable")
         }
-        ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(new File(Config.robustGenerateDirectory, Constants.PATACH_JAR_NAME)))
+        ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(new File(Config.robustGenerateDirectory, Constants.PATCH_JAR_NAME)))
         zipOut.setLevel(Deflater.NO_COMPRESSION)
         FileInputStream fis = new FileInputStream(inputFile)
         zipFile(inputFile,zipOut,Constants.CLASSES_DEX_NAME);

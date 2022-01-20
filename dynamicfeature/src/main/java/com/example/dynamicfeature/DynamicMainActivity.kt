@@ -33,7 +33,7 @@ class DynamicMainActivity : BaseSplitActivity(), View.OnClickListener {
     @Modify
     private fun getTextInfo(): String {
         array
-        return "Fix Error";
+        return "Error Fix";
     }
 
 

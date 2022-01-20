@@ -1,13 +1,12 @@
 include ':app'
+include ':dynamicfeature'
 include ':plugins:autopatchbase'
 include ':plugins:patch'
+include ':dynamicfeature'
 
-//发布
-include 'plugins:gradle-plugin'
-include 'plugins:auto-patch-plugin'
+//release
 include 'plugins:preprocessor'
 
-//调试
-//includeBuild 'gradle-plugin'
-//includeBuild 'auto-patch-plugin'
-include ':dynamicfeature'
+//debugging
+//includeBuild 'plugins:preprocessor'
+include ':module'

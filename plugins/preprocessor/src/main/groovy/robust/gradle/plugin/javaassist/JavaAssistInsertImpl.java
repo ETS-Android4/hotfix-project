@@ -101,6 +101,10 @@ public class JavaAssistInsertImpl extends InsertcodeStrategy {
             }
             //zip the inserted-classes into output file
             zipFile(ctClass.toBytecode(), outStream, ctClass.getName().replaceAll("\\.", "/") + ".class");
+
+            if(ctClass.isFrozen()){
+                ctClass.defrost();
+            }
         }
 //        }.get()
         outStream.close();
@@ -262,59 +266,59 @@ public class JavaAssistInsertImpl extends InsertcodeStrategy {
      *
      * @param type return type
      * @param isStatic is a static method
-     * @param methodNumber method number
+     * @param methodId method number
      * @return returns the return statement
      */
-    private String getReturnStatement(String type, boolean isStatic, int methodNumber, String parametersClassType, String returnTypeString) {
+    private String getReturnStatement(String type, boolean isStatic, int methodId, String parametersClassType, String returnTypeString) {
         switch (type) {
             case Constants.CONSTRUCTOR:
-                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodNumber + "," + parametersClassType + "," + returnTypeString + ");  ";
+                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");  ";
             case Constants.LANG_VOID:
-                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodNumber + "," + parametersClassType + "," + returnTypeString + ");   return null;";
+                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");   return null;";
 
             case Constants.VOID:
-                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodNumber + "," + parametersClassType + "," + returnTypeString + ");   return ;";
+                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");   return ;";
 
             case Constants.LANG_BOOLEAN:
-                return "   return ((java.lang.Boolean)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Boolean)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
             case Constants.BOOLEAN:
-                return "   return ((java.lang.Boolean)com.meituan.robust.PatchProxy.accessDispatch($args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")).booleanValue();";
+                return "   return ((java.lang.Boolean)com.meituan.robust.PatchProxy.accessDispatch($args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).booleanValue();";
 
             case Constants.INT:
-                return "   return ((java.lang.Integer)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")).intValue();";
+                return "   return ((java.lang.Integer)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).intValue();";
             case Constants.LANG_INT:
-                return "   return ((java.lang.Integer)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")); ";
+                return "   return ((java.lang.Integer)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")); ";
 
             case Constants.LONG:
-                return "   return ((java.lang.Long)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")).longValue();";
+                return "   return ((java.lang.Long)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).longValue();";
             case Constants.LANG_LONG:
-                return "   return ((java.lang.Long)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Long)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
 
             case Constants.DOUBLE:
-                return "   return ((java.lang.Double)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")).doubleValue();";
+                return "   return ((java.lang.Double)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).doubleValue();";
             case Constants.LANG_DOUBLE:
-                return "   return ((java.lang.Double)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Double)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
 
             case Constants.FLOAT:
-                return "   return ((java.lang.Float)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")).floatValue();";
+                return "   return ((java.lang.Float)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).floatValue();";
             case Constants.LANG_FLOAT:
-                return "   return ((java.lang.Float)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Float)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
 
             case Constants.SHORT:
-                return "   return ((java.lang.Short)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")).shortValue();";
+                return "   return ((java.lang.Short)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).shortValue();";
             case Constants.LANG_SHORT:
-                return "   return ((java.lang.Short)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Short)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
 
             case Constants.BYTE:
-                return "   return ((java.lang.Byte)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")).byteValue();";
+                return "   return ((java.lang.Byte)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).byteValue();";
             case Constants.LANG_BYTE:
-                return "   return ((java.lang.Byte)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Byte)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
             case Constants.CHAR:
-                return "   return ((java.lang.Character)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ")).charValue();";
+                return "   return ((java.lang.Character)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).charValue();";
             case Constants.LANG_CHARACTER:
-                return "   return ((java.lang.Character)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Character)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
             default:
-                return "   return (" + type + ")com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodNumber + "," + parametersClassType + "," + returnTypeString + ");";
+                return "   return (" + type + ")com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ");";
         }
     }
 }

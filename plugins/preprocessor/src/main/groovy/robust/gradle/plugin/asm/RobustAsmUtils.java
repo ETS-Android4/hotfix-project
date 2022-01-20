@@ -24,9 +24,9 @@ public final class RobustAsmUtils {
      * @param returnType
      * @param isStatic
      */
-    public static void createInsertCode(GeneratorAdapter mv, String className, List<Type> args, Type returnType, boolean isStatic, int methodId) {
-        prepareMethodParameters(mv, className, args, returnType, isStatic, methodId);
-        //开始调用
+    public static void createInsertCode(GeneratorAdapter mv, String className, List<Type> args, Type returnType, boolean isStatic, int methodKey) {
+        prepareMethodParameters(mv, className, args, returnType, isStatic, methodKey);
+        //start calling
         mv.visitMethodInsn(Opcodes.INVOKESTATIC,
                 PROXYCLASSNAME,
                 "proxy",
@@ -70,7 +70,7 @@ public final class RobustAsmUtils {
         mv.visitLabel(l1);
     }
 
-    private static void prepareMethodParameters(GeneratorAdapter mv, String className, List<Type> args, Type returnType, boolean isStatic, int methodId) {
+    private static void prepareMethodParameters(GeneratorAdapter mv, String className, List<Type> args, Type returnType, boolean isStatic, int methodKey) {
         //The first parameter: new Object[]{...};, if the method has no parameters, directly pass in new Object[0]
         if (args.size() == 0) {
             mv.visitInsn(Opcodes.ICONST_0);
@@ -95,7 +95,7 @@ public final class RobustAsmUtils {
         //The fourth parameter: false, whether the flag is static
         mv.visitInsn(isStatic ? Opcodes.ICONST_1 : Opcodes.ICONST_0);
         //fifth parameter：
-        mv.push(methodId);
+        mv.push(methodKey);
         //The sixth parameter: the parameter class array
         createClassArray(mv, args);
         //The seventh parameter: return value type class
@@ -185,9 +185,9 @@ public final class RobustAsmUtils {
      * @param isStatic
      */
     private static void createObjectArray(MethodVisitor mv, List<Type> paramsTypeClass, boolean isStatic) {
-        //Opcodes.ICONST_0 ~ Opcodes.ICONST_5 这个指令范围
+        //Opcodes.ICONST_0 ~ Opcodes.ICONST_5 This instruction range
         int argsCount = paramsTypeClass.size();
-        //声明 Object[argsCount];
+        //statement Object[argsCount];
         if (argsCount >= 6) {
             mv.visitIntInsn(Opcodes.BIPUSH, argsCount);
         } else {

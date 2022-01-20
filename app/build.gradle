@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 //apply plugin: 'io.hansel.preprocessor'
-//apply plugin: 'robust.patch'
-//apply plugin: 'robust.app'
+apply plugin: 'robust.patch'
+//apply plugin: 'robust'
 
 buildscript {
     repositories {
@@ -41,7 +41,7 @@ android {
     }
 
     signingConfigs {
-        meituan {
+        release {
             storeFile file("keystore.jks")
             storePassword "robust"
             keyAlias "robust"
@@ -52,7 +52,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.meituan
+            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false

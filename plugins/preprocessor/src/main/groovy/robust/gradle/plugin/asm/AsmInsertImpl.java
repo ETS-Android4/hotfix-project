@@ -52,14 +52,17 @@ public class AsmInsertImpl extends InsertcodeStrategy {
             if ("META-INF.versions.9.module-info".equals(ctClass.getName())) {
                 continue;
             }
-            //change modifier to public ,so all the class in the apk will be public ,you will be able to access it in the patch
-            ctClass.setModifiers(AccessFlag.setPublic(ctClass.getModifiers()));
-            if (isNeedInsertClass(ctClass.getName()) && !(ctClass.isInterface() || ctClass.getDeclaredMethods().length < 1)) {
-                //only insert code into specific classes
-                zipFile(transformCode(ctClass.toBytecode(), ctClass.getName().replaceAll("\\.", "/")), outStream, ctClass.getName().replaceAll("\\.", "/") + ".class");
-            } else {
-                zipFile(ctClass.toBytecode(), outStream, ctClass.getName().replaceAll("\\.", "/") + ".class");
-
+            try {
+                //change modifier to public ,so all the class in the apk will be public ,you will be able to access it in the patch
+                ctClass.setModifiers(AccessFlag.setPublic(ctClass.getModifiers()));
+                if (isNeedInsertClass(ctClass.getName()) && !(ctClass.isInterface() || ctClass.getDeclaredMethods().length < 1)) {
+                    //only insert code into specific classes
+                    zipFile(transformCode(ctClass.toBytecode(), ctClass.getName().replaceAll("\\.", "/")), outStream, ctClass.getName().replaceAll("\\.", "/") + ".class");
+                } else {
+                    zipFile(ctClass.toBytecode(), outStream, ctClass.getName().replaceAll("\\.", "/") + ".class");
+                }
+            } catch (Exception e){
+                System.out.println("Error change modifier to public or modifying class");
             }
             ctClass.defrost();
         }
@@ -69,7 +72,7 @@ public class AsmInsertImpl extends InsertcodeStrategy {
     private class InsertMethodBodyAdapter extends ClassVisitor implements Opcodes {
 
         public InsertMethodBodyAdapter() {
-            super(Opcodes.ASM5);
+            super(Opcodes.ASM9);
         }
 
         ClassWriter classWriter;
@@ -78,7 +81,7 @@ public class AsmInsertImpl extends InsertcodeStrategy {
         private Map<String, Boolean> methodInstructionTypeMap;
 
         public InsertMethodBodyAdapter(ClassWriter cw, String className, Map<String, Boolean> methodInstructionTypeMap) {
-            super(Opcodes.ASM5, cw);
+            super(Opcodes.ASM9, cw);
             this.classWriter = cw;
             this.className = className;
             this.methodInstructionTypeMap = methodInstructionTypeMap;
@@ -108,8 +111,9 @@ public class AsmInsertImpl extends InsertcodeStrategy {
                 parameters.deleteCharAt(parameters.length() - 1);
             }
             //record method number
-            methodMap.put(className.replace('/', '.') + "." + name + "(" + parameters.toString() + ")", insertMethodCount.incrementAndGet());
-            return new MethodBodyInsertor(mv, className, desc, isStatic(access), String.valueOf(insertMethodCount.get()), name, access);
+            int methodId = generateMethodId().hashCode(); //String.valueOf(insertMethodCount.incrementAndGet());
+            methodMap.put(className.replace('/', '.') + "." + name + "(" + parameters.toString() + ")", methodId);
+            return new MethodBodyInsertor(mv, className, desc, isStatic(access), methodId, name, access);
         }
 
         private boolean isProtect(int access) {
@@ -179,10 +183,10 @@ public class AsmInsertImpl extends InsertcodeStrategy {
             List<Type> paramsTypeClass = new ArrayList();
             boolean isStatic;
             //At present, the methodid is of type int, and it may be changed to type of String in the future. A strong conversion has been performed here.
-            String methodId;
+            int methodKey;
 
-            public MethodBodyInsertor(MethodVisitor mv, String className, String desc, boolean isStatic, String methodId, String name, int access) {
-                super(Opcodes.ASM5, mv, access, name, desc);
+            public MethodBodyInsertor(MethodVisitor mv, String className, String desc, boolean isStatic, int methodKey, String name, int access) {
+                super(Opcodes.ASM9, mv, access, name, desc);
                 this.className = className;
                 this.returnType = Type.getReturnType(desc);
                 Type[] argsType = Type.getArgumentTypes(desc);
@@ -190,14 +194,14 @@ public class AsmInsertImpl extends InsertcodeStrategy {
                     paramsTypeClass.add(type);
                 }
                 this.isStatic = isStatic;
-                this.methodId = methodId;
+                this.methodKey = methodKey;
             }
 
 
             @Override
             public void visitCode() {
                 //insert code here
-                RobustAsmUtils.createInsertCode(this, className, paramsTypeClass, returnType, isStatic, Integer.valueOf(methodId));
+                RobustAsmUtils.createInsertCode(this, className, paramsTypeClass, returnType, isStatic, methodKey);
             }
 
         }

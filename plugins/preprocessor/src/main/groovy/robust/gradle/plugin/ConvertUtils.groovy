@@ -25,9 +25,10 @@ class ConvertUtils {
                         def className = it.absolutePath.substring(dirPath.length() + 1, it.absolutePath.length() - SdkConstants.DOT_CLASS.length()).replaceAll(Matcher.quoteReplacement(File.separator), '.')
                         if ("META-INF.versions.9.module-info" != className) {
                             if (classNames.contains(className)) {
-                                throw new RuntimeException("You have duplicate classes with the same name : " + className + " please remove duplicate classes ")
+                                println("You have duplicate classes with the same name : " + className + " please remove duplicate classes ")
+                            } else {
+                                classNames.add(className)
                             }
-                            classNames.add(className)
                         }
                     }
                 }
@@ -44,9 +45,10 @@ class ConvertUtils {
                         className = className.substring(0, className.length() - SdkConstants.DOT_CLASS.length()).replaceAll('/', '.')
                         if ("META-INF.versions.9.module-info" != className) {
                             if (classNames.contains(className)) {
-                                throw new RuntimeException("You have duplicate classes with the same name : " + className + " please remove duplicate classes ")
+                                println("You have duplicate classes with the same name : " + className + " please remove duplicate classes ")
+                            } else {
+                                classNames.add(className)
                             }
-                            classNames.add(className)
                         }
                     }
                 }

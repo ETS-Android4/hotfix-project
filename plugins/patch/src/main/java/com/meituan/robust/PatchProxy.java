@@ -13,29 +13,29 @@ public class PatchProxy {
     private static ThreadLocal<RobustExtension> robustExtensionThreadLocal = new ThreadLocal<>();
 
     /**
-     * 原来的插桩逻辑为这样：
+     * The original instrumentation logic is as follows:
      * <pre>
      * if (PatchProxy.isSupport()) {
-     *     return PatchProxy.accessDispatch();
+     * return PatchProxy.accessDispatch();
      * }
      * <pre/>
-     * 封装一下变成下面这种代码
+     * Encapsulate it into the following code
      * <pre>
      * PatchProxyResult patchProxyResult = PatchProxy.proxy();
      * if (patchProxyResult.isSupported) {
-     *     return patchProxyResult.result;
+     * return patchProxyResult.result;
      * }
      * <pre/>
-     * 这样做的好处有两个：
-     * 1. 减少包大小。 不是开玩笑，虽然后者代码看起来变得复杂，但实质产生的指令更少。
-     * 之前两个函数调用，每次都需要load 7个参数到栈上，这7个参数还不是简单的基本类型，这意味着比后者多出若干条指令。
-     * 数据显示在5W个方法的插桩下，后者能比前者节省200KB
+     * There are two advantages to doing this:
+     * 1. Reduced package size. No kidding, although the latter code looks complicated, it actually produces fewer instructions.
+     * The previous two function calls need to load 7 parameters to the stack each time. These 7 parameters are not simple basic types, which means that there are several more instructions than the latter.
+     * The data shows that under the instrumentation of 5W methods, the latter can save 200KB compared to the former
      *
-     * 2. fix一个bug。robust其实支持采用将ChangeQuickRedirect置为null的方法实时下线一个patch，那原来的插桩逻辑就存在线程安全的问题。
-     * 根源在于原来的逻辑中ChangeQuickRedirect是每次都直接去取的static变量值
-     * 如果在执行isSupport的时候ChangeQuickRedirect有值，但执行到accessDispatch时ChangeQuickRedirect被置为空，那就意味着被patch的方法该次将不执行任何代码
-     * 这样会带来一系列的不可知问题。
-     * 封装之后能保证这两个方法读取到的ChangeQuickRedirect是同一份。
+     * 2. Fix a bug. Robust actually supports the real-time offline of a patch by setting ChangeQuickRedirect to null, so the original instrumentation logic has the problem of thread safety.
+     * The root cause is that in the original logic, ChangeQuickRedirect is a static variable value that is taken directly every time
+     * If ChangeQuickRedirect has a value when isSupport is executed, but ChangeQuickRedirect is set to null when accessDispatch is executed, it means that the patched method will not execute any code this time
+     * This will bring a series of unknown problems.
+     * After encapsulation, it is guaranteed that the ChangeQuickRedirect read by these two methods is the same.
      */
     public static PatchProxyResult proxy(Object[] paramsArray, Object current, ChangeQuickRedirect changeQuickRedirect, boolean isStatic, int methodNumber, Class[] paramsClassTypes, Class returnType) {
         PatchProxyResult patchProxyResult = new PatchProxyResult();
@@ -138,7 +138,7 @@ public class PatchProxy {
     private static String getClassMethod(boolean isStatic, int methodNumber) {
         String classMethod = "";
         try {
-            //可能过于耗时，这部分需要请自己调用函数
+            //It may be too time-consuming, this part needs to call the function yourself
 //            java.lang.StackTraceElement stackTraceElement = (new java.lang.Throwable()).getStackTrace()[2];
 //            String methodName = stackTraceElement.getMethodName();
 //            String className = stackTraceElement.getClassName();
@@ -162,7 +162,7 @@ public class PatchProxy {
     /***
      *
      * @param robustExtension
-     * 注册RobustExtension监听器，通知当前执行程序
+     * Register a RobustExtension listener to notify the current executing program
      * @return
      */
     public synchronized static boolean register(RobustExtension robustExtension) {

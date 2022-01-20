@@ -3,6 +3,8 @@ package robust.gradle.plugin
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.meituan.robust.Constants
+import com.meituan.robust.utils.JavaUtils
+import com.robust.plugins.BuildConfig
 import javassist.ClassPool
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -11,6 +13,7 @@ import robust.gradle.plugin.asm.AsmInsertImpl
 import robust.gradle.plugin.javaassist.JavaAssistInsertImpl
 
 import java.util.zip.GZIPOutputStream
+
 /**
  * Created by mivanzhang on 16/11/3.
  *
@@ -39,7 +42,7 @@ class RobustTransform extends Transform implements Plugin<Project> {
     @Override
     void apply(Project target) {
         project = target
-        robust = new XmlSlurper().parse(new File("${project.rootDir}/${Constants.ROBUST_XML}"))
+        robust = new XmlSlurper().parse(new File("${project.rootDir.path}/${Constants.ROBUST_XML}"))
         logger = project.logger
         initConfig()
         //isForceInsert is true to force the insertion
@@ -60,7 +63,7 @@ class RobustTransform extends Transform implements Plugin<Project> {
             if (!isDebugTask) {
                 project.android.registerTransform(this)
 //                project.afterEvaluate(new RobustApkHashAction())
-                logger.quiet "Register robust transform successful !!!"
+                logger.quiet "Register robust transform successful !!! ${BuildConfig.NAME}:${BuildConfig.VERSION}"
             }
             if (null != robust.switch.turnOnRobust && !"true".equals(String.valueOf(robust.switch.turnOnRobust))) {
                 return;
@@ -78,7 +81,7 @@ class RobustTransform extends Transform implements Plugin<Project> {
         exceptMethodList = new ArrayList<>()
         isHotfixMethodLevel = false;
         isExceptMethodLevel = false;
-        /*对文件进行解析*/
+        /*Parse the file*/
         for (name in robust.packname.name) {
             hotfixPackageList.add(name.text());
         }
@@ -98,7 +101,7 @@ class RobustTransform extends Transform implements Plugin<Project> {
 
         if (null != robust.switch.useAsm && "false".equals(String.valueOf(robust.switch.useAsm.text()))) {
             useASM = false;
-        }else {
+        } else {
             //Use asm by default
             useASM = true;
         }
@@ -141,15 +144,15 @@ class RobustTransform extends Transform implements Plugin<Project> {
 
     @Override
     void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
-        logger.quiet '================robust start================'
+        logger.quiet "================robust start trasforming for ${project.name}================"
         def startTime = System.currentTimeMillis()
         outputProvider.deleteAll()
         File jarFile = outputProvider.getContentLocation("main", getOutputTypes(), getScopes(),
                 Format.JAR);
-        if(!jarFile.getParentFile().exists()){
+        if (!jarFile.getParentFile().exists()) {
             jarFile.getParentFile().mkdirs();
         }
-        if(jarFile.exists()){
+        if (jarFile.exists()) {
             jarFile.delete();
         }
 
@@ -166,12 +169,14 @@ class RobustTransform extends Transform implements Plugin<Project> {
         } else {
             insertcodeStrategy = new JavaAssistInsertImpl(hotfixPackageList, hotfixMethodList, exceptPackageList, exceptMethodList, isHotfixMethodLevel, isExceptMethodLevel, isForceInsertLambda);
         }
+        insertcodeStrategy.moduleName = project.name
         insertcodeStrategy.insertCode(box, jarFile);
         writeMap2File(insertcodeStrategy.methodMap, Constants.METHOD_MAP_OUT_PATH)
 
         logger.quiet "===robust print id start==="
-        for (String method : insertcodeStrategy.methodMap.keySet()) {
-            int id = insertcodeStrategy.methodMap.get(method);
+        LinkedHashMap<String, Integer> methodMap = JavaUtils.getMapFromZippedFile(project.getRootProject().getBuildDir().path + Constants.METHOD_MAP_OUT_PATH)
+        for (String method : methodMap.keySet()) {
+            int id = methodMap.get(method);
             System.out.println("key is   " + method + "  value is    " + id);
         }
         logger.quiet "===robust print id end==="
@@ -182,21 +187,27 @@ class RobustTransform extends Transform implements Plugin<Project> {
     }
 
     private void writeMap2File(Map map, String path) {
-        File file = new File(project.buildDir.path + path);
+        File file = new File(project.getRootProject().getBuildDir().path + path);
         if (!file.exists() && (!file.parentFile.mkdirs() || !file.createNewFile())) {
-//            logger.error(path + " file create error!!")
+            logger.error(path + " file create error!!")
         }
-        FileOutputStream fileOut = new FileOutputStream(file);
 
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        if(file.exists() && file.length() > 0){
+            map.putAll(JavaUtils.getMapFromZippedFile(file.path))
+        }
+
+        FileOutputStream fileOut = new FileOutputStream(file);
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream()
         ObjectOutputStream objOut = new ObjectOutputStream(byteOut);
         objOut.writeObject(map)
+
         //gzip compression
         GZIPOutputStream gzip = new GZIPOutputStream(fileOut);
         gzip.write(byteOut.toByteArray())
         objOut.close();
         gzip.flush();
         gzip.close();
+
         fileOut.flush()
         fileOut.close()
 

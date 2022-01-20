@@ -41,6 +41,10 @@ public abstract class InsertcodeStrategy {
     protected AtomicInteger insertMethodCount = new AtomicInteger(0);
     //record every method with unique method number, use LinkedHashMap to keep order for printing
     public HashMap<String, Integer> methodMap = new LinkedHashMap<>();
+    protected String moduleName = "";
+    protected String generateMethodId() {
+        return String.format("%s_%s", moduleName, insertMethodCount.incrementAndGet());
+    }
 
     public InsertcodeStrategy(List<String> hotfixPackageList, List<String> hotfixMethodList, List<String> exceptPackageList, List<String> exceptMethodList, boolean isHotfixMethodLevel, boolean isExceptMethodLevel, boolean isForceInsertLambda) {
         this.hotfixPackageList = hotfixPackageList;
