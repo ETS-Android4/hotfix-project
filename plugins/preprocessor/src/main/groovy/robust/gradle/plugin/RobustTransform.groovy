@@ -1,6 +1,7 @@
 package robust.gradle.plugin
 
 import com.android.build.api.transform.*
+import com.android.build.gradle.FeaturePlugin
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.meituan.robust.Constants
 import com.meituan.robust.utils.JavaUtils
@@ -21,7 +22,7 @@ import java.util.zip.GZIPOutputStream
  *
  */
 
-class RobustTransform extends Transform implements Plugin<Project> {
+class RobustTransform extends Transform {
     Project project
     static Logger logger
     private static List<String> hotfixPackageList = new ArrayList<>();
@@ -39,8 +40,7 @@ class RobustTransform extends Transform implements Plugin<Project> {
     def robust
     InsertcodeStrategy insertcodeStrategy;
 
-    @Override
-    void apply(Project target) {
+    RobustTransform(Project target) {
         project = target
         robust = new XmlSlurper().parse(new File("${project.rootDir.path}/${Constants.ROBUST_XML}"))
         logger = project.logger
@@ -62,7 +62,7 @@ class RobustTransform extends Transform implements Plugin<Project> {
             }
             if (!isDebugTask) {
                 project.android.registerTransform(this)
-//                project.afterEvaluate(new RobustApkHashAction())
+//                    project.afterEvaluate(new RobustApkHashAction())
                 logger.quiet "Register robust transform successful !!! ${BuildConfig.NAME}:${BuildConfig.VERSION}"
             }
             if (null != robust.switch.turnOnRobust && !"true".equals(String.valueOf(robust.switch.turnOnRobust))) {
@@ -192,7 +192,7 @@ class RobustTransform extends Transform implements Plugin<Project> {
             logger.error(path + " file create error!!")
         }
 
-        if(file.exists() && file.length() > 0){
+        if (file.exists() && file.length() > 0) {
             map.putAll(JavaUtils.getMapFromZippedFile(file.path))
         }
 

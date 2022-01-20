@@ -10,7 +10,6 @@ import javassist.CtClass
 import javassist.CtMethod
 import javassist.expr.ExprEditor
 import javassist.expr.MethodCall
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.logging.Logger
 
@@ -23,7 +22,7 @@ import java.util.zip.ZipOutputStream
  *
  * AutoPatchTransform generate patch dex
  */
-class AutoPatchTransform extends Transform implements Plugin<Project> {
+class AutoPatchTransform extends Transform {
     private
     static String dex2SmaliCommand;
     private
@@ -34,8 +33,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
     Project project
     static Logger logger
 
-    @Override
-    void apply(Project target) {
+    AutoPatchTransform(Project target) {
         this.project = target
         logger = project.logger
         initConfig();
@@ -209,7 +207,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
             diretcory.listFiles(new FilenameFilter() {
                 @Override
                 boolean accept(File file, String s) {
-                    return !(Constants.PATCH_JAR_NAME.equals(s))
+                    return !(Constants.PATACH_JAR_NAME.equals(s))
                 }
             }).each {
                 if(it.isDirectory()){
@@ -287,7 +285,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
         if (!inputFile.exists() || !inputFile.canRead()) {
             throw new RuntimeException("patch.dex is not exists or readable")
         }
-        ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(new File(Config.robustGenerateDirectory, Constants.PATCH_JAR_NAME)))
+        ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(new File(Config.robustGenerateDirectory, Constants.PATACH_JAR_NAME)))
         zipOut.setLevel(Deflater.NO_COMPRESSION)
         FileInputStream fis = new FileInputStream(inputFile)
         zipFile(inputFile,zipOut,Constants.CLASSES_DEX_NAME);
