@@ -16,7 +16,7 @@ class Robust implements Plugin<Project> {
 
         if (isPatchEnable(project) && hasApp) {
             new AutoPatchTransform(project)
-        } else if ((!isPatchEnable(project) && hasApp) || (!isPatchEnable(project) && hasFeature)) {
+        } else if (!isPatchEnable(project)) {
             new RobustTransform(project)
         }
     }

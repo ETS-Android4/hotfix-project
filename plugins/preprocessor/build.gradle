@@ -38,9 +38,9 @@ dependencies {
     implementation 'com.android.tools.build:gradle:3.5.4'
     implementation 'org.javassist:javassist:3.28.0-GA'
     implementation fileTree(dir: "./src/main/libs", include: ['*.jar'])
-//    implementation 'com.robust.plugins:autopatchbase:2.0.0'
     implementation 'org.ow2.asm:asm:9.1'
     implementation project(path: ':plugins:autopatchbase')
+//    implementation 'com.robust.plugins:autopatchbase:2.0.0'
 }
 
 sourceSets {

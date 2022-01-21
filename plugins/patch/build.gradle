@@ -35,10 +35,8 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 dependencies {
-//    compile 'com.meituan.robust:autopatchbase:' + VERSION_NAME
     api project(':plugins:autopatchbase')
-
-//    api 'com.robust.plugins:autopatchbase:2.0.0'
+//    implementation 'com.robust.plugins:autopatchbase:2.0.0'
 }
 
 //apply from: '../gradle_mvn_push.gradle'
