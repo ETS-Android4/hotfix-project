@@ -102,7 +102,8 @@ public class Constants {
     public static final String LANG_CHARACTER = "Character";
     public static final String CHAR = "char";
 
-    public static final String METHOD_MAP_OUT_PATH = "/outputs/robust/methodsMap.robust";
+    public static final String METHOD_MAP_OUT_PATH = "/outputs/robust/tmp/methodsMap.robust";
+    public static final String MAPPING_OUT_PATH = "/outputs/robust/tmp/mapping.txt";
     public static final String INTERFACE_NAME = "com.meituan.robust.ChangeQuickRedirect";
     public static final String INSERT_FIELD_NAME = "changeQuickRedirect";
     public static final List<String> NO_NEED_REFLECT_CLASS = Arrays.asList("android.os.Bundle","android.os.BaseBundle");

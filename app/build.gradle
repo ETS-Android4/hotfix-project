@@ -87,8 +87,7 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp:2.5.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'org.javassist:javassist:3.28.0-GA'
-//    implementation project(':plugins:patch')
-//    implementation 'com.robust.plugins.patch:1.0.0'
+    implementation project(':plugins:patch')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

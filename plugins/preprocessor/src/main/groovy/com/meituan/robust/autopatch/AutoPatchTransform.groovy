@@ -56,7 +56,7 @@ class AutoPatchTransform extends Transform {
         smali2DexCommand = "   java -jar ${smaliFilePath} classout" + File.separator + " -o "+Constants.PATACH_DEX_NAME;
         jar2DexCommand = "   java -jar ${dxFilePath} --dex --output=$Constants.CLASSES_DEX_NAME  " + Constants.ZIP_FILE_NAME;
         ReadXML.readXMl(project.rootDir.path);
-        Config.methodMap = JavaUtils.getMapFromZippedFile(project.rootDir.path + Constants.METHOD_MAP_PATH)
+        Config.methodMap = JavaUtils.readMethodMapFile(project.rootDir.path + Constants.METHOD_MAP_PATH)
     }
 
     @Override

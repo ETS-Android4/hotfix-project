@@ -13,7 +13,7 @@ plugins {
     id 'com.android.dynamic-feature'
     id 'kotlin-android'
 //    id 'io.hansel.preprocessor.feature'
-    id 'robust'
+//    id 'robust'
 }
 
 android {
@@ -48,8 +48,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'org.javassist:javassist:3.28.0-GA'
-//    implementation project(':plugins:patch')
-//    implementation 'com.robust.plugins.patch:1.0.0'
+    implementation project(':plugins:patch')
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestImplementation 'com.android.support:support-annotations:28.0.0'

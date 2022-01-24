@@ -39,8 +39,8 @@ dependencies {
     implementation 'org.javassist:javassist:3.28.0-GA'
     implementation fileTree(dir: "./src/main/libs", include: ['*.jar'])
     implementation 'org.ow2.asm:asm:9.1'
-    implementation project(path: ':plugins:autopatchbase')
-//    implementation 'com.robust.plugins:autopatchbase:2.0.0'
+//    compile project(path: ':plugins:autopatchbase')
+    implementation 'com.robust.plugins:autopatchbase:2.0.0'
 }
 
 sourceSets {

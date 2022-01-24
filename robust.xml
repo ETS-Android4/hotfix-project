@@ -25,9 +25,11 @@
         <!--<patchLog>true</patchLog>-->
         <patchLog>false</patchLog>
 
-        <!--Whether the project supports progaurd-->
+        <!--Whether the project supports proguard-->
         <proguard>true</proguard>
-        <!--<proguard>false</proguard>-->
+
+        <!--Set true if using R8 set to false if using D8-->
+        <enableR8>false</enableR8>
 
         <!--Whether the project supports ASM for instrumentation, ASM is used by default, ASM is recommended, Javaassist is easy to interfere with other bytecode tools -->
         <useAsm>true</useAsm>

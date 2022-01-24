@@ -2,16 +2,20 @@ package com.meituan.robust.utils;
 
 import com.meituan.robust.Constants;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
@@ -40,6 +44,27 @@ public class JavaUtils {
 //            }
 //        }
 //    }
+
+    public static Object readMethodMapFile(String path) {
+        File file = new File(path);
+        LinkedHashMap<String, Integer> methodMap = new LinkedHashMap<>();
+        try {
+            if (file.exists()) {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = reader.readLine()) != null){
+                    if(line.length() > 0) {
+                        String[] parts = line.split(":");
+                        methodMap.put(parts[0], Integer.parseInt(parts[1]));
+                    }
+                }
+                reader.close();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return methodMap;
+    }
 
     public static Object getMapFromZippedFile(String path) {
         File file = new File(path);

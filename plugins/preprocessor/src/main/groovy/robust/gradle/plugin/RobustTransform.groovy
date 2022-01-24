@@ -31,9 +31,7 @@ class RobustTransform extends Transform {
     private static List<String> exceptMethodList = new ArrayList<>();
     private static boolean isHotfixMethodLevel = false;
     private static boolean isExceptMethodLevel = false;
-//    private static boolean isForceInsert = true;
     private static boolean isForceInsert = false;
-//    private static boolean useASM = false;
     private static boolean useASM = true;
     private static boolean isForceInsertLambda = false;
 
@@ -62,14 +60,16 @@ class RobustTransform extends Transform {
             }
             if (!isDebugTask) {
                 project.android.registerTransform(this)
+                project.afterEvaluate(new RobustAction())
 //                    project.afterEvaluate(new RobustApkHashAction())
-                logger.quiet "Register robust transform successful !!! ${BuildConfig.NAME}:${BuildConfig.VERSION}"
+                logger.quiet "Register robust ${BuildConfig.NAME}:${BuildConfig.VERSION} transform for ${project.name} successful !!!"
             }
             if (null != robust.switch.turnOnRobust && !"true".equals(String.valueOf(robust.switch.turnOnRobust))) {
                 return;
             }
         } else {
             project.android.registerTransform(this)
+            project.afterEvaluate(new RobustAction())
 //            project.afterEvaluate(new RobustApkHashAction())
         }
     }
@@ -163,7 +163,7 @@ class RobustTransform extends Transform {
 
         def box = ConvertUtils.toCtClasses(inputs, classPool)
         def cost = (System.currentTimeMillis() - startTime) / 1000
-//        logger.quiet "check all class cost $cost second, class count: ${box.size()}"
+        logger.quiet "check all class cost $cost second, class count: ${box.size()}"
         if (useASM) {
             insertcodeStrategy = new AsmInsertImpl(hotfixPackageList, hotfixMethodList, exceptPackageList, exceptMethodList, isHotfixMethodLevel, isExceptMethodLevel, isForceInsertLambda);
         } else {
@@ -171,19 +171,34 @@ class RobustTransform extends Transform {
         }
         insertcodeStrategy.moduleName = project.name
         insertcodeStrategy.insertCode(box, jarFile);
-        writeMap2File(insertcodeStrategy.methodMap, Constants.METHOD_MAP_OUT_PATH)
-
-        logger.quiet "===robust print id start==="
-        LinkedHashMap<String, Integer> methodMap = JavaUtils.getMapFromZippedFile(project.getRootProject().getBuildDir().path + Constants.METHOD_MAP_OUT_PATH)
-        for (String method : methodMap.keySet()) {
-            int id = methodMap.get(method);
-            System.out.println("key is   " + method + "  value is    " + id);
-        }
-        logger.quiet "===robust print id end==="
+        writeCrumbFile(insertcodeStrategy.methodMap, Constants.METHOD_MAP_OUT_PATH)
 
         cost = (System.currentTimeMillis() - startTime) / 1000
         logger.quiet "robust cost $cost second"
-        logger.quiet '================robust   end================'
+        logger.quiet '================robust end================'
+    }
+
+    private void writeCrumbFile(Map methodMap, String path) {
+        File file = new File(project.getRootProject().getBuildDir().path + path);
+        if (!file.exists() && (!file.parentFile.mkdirs() || !file.createNewFile())) {
+            logger.error(path + " file create error!!")
+        }
+
+        try {
+            //write to file
+            FileWriter writer = new FileWriter(file, true)
+            BufferedWriter bw = new BufferedWriter(writer)
+            for (String method : methodMap.keySet()) {
+                int id = methodMap.get(method);
+                bw.write(method + ":" + id)
+                bw.newLine()
+                bw.flush()
+//                logger.quiet("key is   " + method + "  value is    " + id)
+            }
+            logger.quiet("Robust: Methods hooked  = ${methodMap.size()}")
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
     }
 
     private void writeMap2File(Map map, String path) {
