@@ -173,7 +173,7 @@ class PatchesFactory {
                                             if (superMethod.getLongName() != null && superMethod.getLongName() == m.getMethod().getLongName()) {
                                                 String firstVariable = "";
                                                 if (ReflectUtils.isStatic(method.getModifiers())) {
-                                                    //修复static 方法中含有super的问题，比如Aspectj处理后的方法
+                                                    //Fix the problem that the static method contains super, such as the method processed by Aspectj
                                                     MethodInfo methodInfo = method.getMethodInfo();
                                                     LocalVariableAttribute table = methodInfo.getCodeAttribute().getAttribute(LocalVariableAttribute.tag);
                                                     int numberOfLocalVariables = table.tableLength();
@@ -226,7 +226,7 @@ class PatchesFactory {
         }
         targetClass = Config.classPool.makeClass(patchName);
         targetClass.getClassFile().setMajorVersion(ClassFile.JAVA_7);
-        //warning 所有的super问题均在assist class来处理,
+        //warning All super problems are handled in the assist class,
         targetClass.setSuperclass(sourceClass.getSuperclass());
         for (CtField field : sourceClass.getDeclaredFields()) {
             targetClass.addField(new CtField(field, targetClass));

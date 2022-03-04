@@ -17,18 +17,19 @@ buildscript {
                 username = "${artifactory_username}"
                 password = "${artifactory_password}"
             }
+            allowInsecureProtocol = true
         }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
 //        classpath "com.android.tools.build:gradle:7.0.3"
         classpath "com.android.tools.build:gradle:4.2.1"
 //        classpath "com.android.tools.build:gradle:4.0.0"
 //        classpath "com.android.tools.build:gradle:3.5.4"
 
-        classpath 'com.robust.plugins:preprocessor:2.0.4'
-        classpath 'com.robust.plugins:autopatchbase:2.0.0'
-        classpath 'io.hansel.preprocessor:preprocessor:1.0.0'
+        classpath 'com.robust.plugins:preprocessor:2.0.5'
+        classpath 'com.robust.plugins:autopatchbase:2.0.5'
+        classpath 'io.hansel.preprocessor:preprocessor:9.1.2-dev'
 
     }
 }
@@ -49,6 +50,7 @@ allprojects {
                 username = "${artifactory_username}"
                 password = "${artifactory_password}"
             }
+            allowInsecureProtocol = true
         }
     }
     tasks.withType(JavaCompile) { options.encoding = "UTF-8" }

@@ -18,7 +18,7 @@ class ReadAnnotation {
     public static void readAnnotation(List<CtClass> box, Logger log) {
         logger = log;
         Set patchMethodSignureSet = new HashSet<String>();
-        synchronized (AutoPatchTransform.class) {
+        synchronized (Patch.class) {
             if (Constants.ModifyAnnotationClass == null) {
                 Constants.ModifyAnnotationClass = box.get(0).getClassPool().get(Constants.MODIFY_ANNOTATION).toClass();
             }
@@ -26,22 +26,24 @@ class ReadAnnotation {
                 Constants.AddAnnotationClass = box.get(0).getClassPool().get(Constants.ADD_ANNOTATION).toClass();
             }
         }
-        box.forEach {
-            ctclass ->
-                try {
-                    boolean isNewlyAddClass = scanClassForAddClassAnnotation(ctclass);
-                    //newly add class donnot need scann for modify
-                    if (!isNewlyAddClass) {
-                        patchMethodSignureSet.addAll(scanClassForModifyMethod(ctclass));
-                        scanClassForAddMethodAnnotation(ctclass);
-                    }
-                } catch (NullPointerException e) {
-                    logger.warn("something wrong when readAnnotation, " + e.getMessage() + " cannot find class name " + ctclass.name)
-                    e.printStackTrace();
-                } catch (RuntimeException e) {
-                    logger.warn("something wrong when readAnnotation, " + e.getMessage() + " cannot find class name " + ctclass.name)
-                    e.printStackTrace();
+        for(CtClass ctClass: box){
+            if ("META-INF.versions.9.module-info".equals(ctClass.getName())) {
+                continue
+            }
+            try {
+                boolean isNewlyAddClass = scanClassForAddClassAnnotation(ctClass);
+                //newly add class donnot need scann for modify
+                if (!isNewlyAddClass) {
+                    patchMethodSignureSet.addAll(scanClassForModifyMethod(ctClass));
+                    scanClassForAddMethodAnnotation(ctClass);
                 }
+            } catch (NullPointerException e) {
+                logger.warn("something wrong when readAnnotation, " + e.getMessage() + " cannot find class name " + ctClass.name)
+                e.printStackTrace();
+            } catch (RuntimeException e) {
+                logger.warn("something wrong when readAnnotation, " + e.getMessage() + " cannot find class name " + ctClass.name)
+                e.printStackTrace();
+            }
         }
         println("new add methods  list is ")
         JavaUtils.printList(Config.newlyAddedMethodSet.toList())

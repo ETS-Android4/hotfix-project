@@ -1,4 +1,4 @@
-package com.meituan.sample;
+package com.meituan.test;
 
 import android.util.Log;
 

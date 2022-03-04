@@ -6,14 +6,15 @@ buildscript {
         maven { url 'https://maven-hansel.tokopedia.com/maven' }
     }
     dependencies {
-        classpath 'io.hansel.preprocessor:preprocessor:1.0.0'
+        classpath 'io.hansel.preprocessor:preprocessor:9.1.2-dev'
     }
 }
+
 plugins {
     id 'com.android.dynamic-feature'
     id 'kotlin-android'
 //    id 'io.hansel.preprocessor.feature'
-//    id 'robust'
+    id 'robust'
 }
 
 android {

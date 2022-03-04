@@ -5,7 +5,7 @@ import com.android.build.gradle.FeaturePlugin
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.meituan.robust.Constants
 import com.meituan.robust.utils.JavaUtils
-import com.robust.plugins.BuildConfig
+//import com.robust.plugins.BuildConfig
 import javassist.ClassPool
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -43,6 +43,9 @@ class RobustTransform extends Transform {
         robust = new XmlSlurper().parse(new File("${project.rootDir.path}/${Constants.ROBUST_XML}"))
         logger = project.logger
         initConfig()
+        if (null != robust.switch.turnOnRobust && !"true".equals(String.valueOf(robust.switch.turnOnRobust))) {
+            return;
+        }
         //isForceInsert is true to force the insertion
         if (!isForceInsert) {
             def taskNames = project.gradle.startParameter.taskNames
@@ -62,10 +65,7 @@ class RobustTransform extends Transform {
                 project.android.registerTransform(this)
                 project.afterEvaluate(new RobustAction())
 //                    project.afterEvaluate(new RobustApkHashAction())
-                logger.quiet "Register robust ${BuildConfig.NAME}:${BuildConfig.VERSION} transform for ${project.name} successful !!!"
-            }
-            if (null != robust.switch.turnOnRobust && !"true".equals(String.valueOf(robust.switch.turnOnRobust))) {
-                return;
+                logger.quiet "Register robust transform for ${project.name} successful !!!"
             }
         } else {
             project.android.registerTransform(this)

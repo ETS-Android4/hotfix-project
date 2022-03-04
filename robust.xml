@@ -28,9 +28,6 @@
         <!--Whether the project supports proguard-->
         <proguard>true</proguard>
 
-        <!--Set true if using R8 set to false if using D8-->
-        <enableR8>false</enableR8>
-
         <!--Whether the project supports ASM for instrumentation, ASM is used by default, ASM is recommended, Javaassist is easy to interfere with other bytecode tools -->
         <useAsm>true</useAsm>
         <!--        <useAsm>false</useAsm>-->
@@ -44,14 +41,14 @@
     <!--This configuration item is that each APP needs to configure itself, which is the package name of your own code in your App.
     The classes under these package names will be inserted into the code by Robust, and the class Robust that is not inserted into the code by Robust cannot be repaired -->
     <packname name="hotfixPackage">
-        <name>com.meituan.sample</name>
+        <name>com.meituan.test</name>
         <name>com.example</name>
     </packname>
 
     <!--The package name of the Robust insertion code is not required, and the Robust library does not need to insert the code. Please keep the following configuration items, and you can also add them according to the situation of each APP -->
     <exceptPackname name="exceptPackage">
         <name>com.meituan.robust</name>
-        <name>com.meituan.sample.R</name>
+        <name>com.meituan.tokopatch.R</name>
         <name>com.example.dynamicfeature.R</name>
     </exceptPackname>
 

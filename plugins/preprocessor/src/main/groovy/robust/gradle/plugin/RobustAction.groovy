@@ -1,5 +1,6 @@
 package robust.gradle.plugin
 
+import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.api.BaseVariant
 import com.google.common.io.Files
 import com.meituan.robust.Constants
@@ -13,23 +14,26 @@ class RobustAction implements Action<Project> {
     void execute(Project project) {
         def workingDir = "${project.rootProject.buildDir.path}/${Constants.ROBUST_GENERATE_DIRECTORY}/tmp"
         def outputDir = "${project.rootProject.buildDir.path}/${Constants.ROBUST_GENERATE_DIRECTORY}"
-        project.android.applicationVariants.each { variant ->
-            def task = project.tasks.findByName(getTaskNameForR8(variant))
-            if (task == null) {
-                task = project.tasks.findByName(getProguardTaskName(variant))
-            }
-            if (task == null) {
-                return
-            }
-            project.logger.quiet("packageTask name ${task.name}")
-            task.doLast {
-                project.logger.quiet("===start archive crumb file===")
-                def srcFile = variant.getMappingFile()
-                def destFile = new File(project.rootProject.buildDir.path + Constants.MAPPING_OUT_PATH)
-                Files.copy(srcFile, destFile)
-                def result = archieveFile(workingDir, outputDir)
-                if (result) {
-                    deleteDir(new File(workingDir))
+        def hasApp = project.plugins.withType(AppPlugin)
+        if(hasApp){
+            project.android.applicationVariants.each { variant ->
+                def task = project.tasks.findByName(getTaskNameForR8(variant))
+                if (task == null) {
+                    task = project.tasks.findByName(getProguardTaskName(variant))
+                }
+                if (task == null) {
+                    return
+                }
+                project.logger.quiet("packageTask name ${task.name}")
+                task.doLast {
+                    project.logger.quiet("===start archive crumb file===")
+                    def srcFile = variant.getMappingFile()
+                    def destFile = new File(project.rootProject.buildDir.path + Constants.MAPPING_OUT_PATH)
+                    Files.copy(srcFile, destFile)
+                    def result = archieveFile(workingDir, outputDir)
+                    if (result) {
+                        deleteDir(new File(workingDir))
+                    }
                 }
             }
         }

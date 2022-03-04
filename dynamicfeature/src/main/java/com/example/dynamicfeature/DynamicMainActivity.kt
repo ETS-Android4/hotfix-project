@@ -1,12 +1,11 @@
 package com.example.dynamicfeature
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.*
 import com.meituan.robust.patch.annotaion.Modify
-import com.meituan.sample.BaseSplitActivity
+import com.meituan.test.BaseSplitActivity
 import java.lang.reflect.Field
 
 class DynamicMainActivity : BaseSplitActivity(), View.OnClickListener {

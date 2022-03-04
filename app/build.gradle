@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 //apply plugin: 'io.hansel.preprocessor'
 apply plugin: 'robust'
+//apply plugin: 'com.sample.plugins'
+//apply plugin: 'robust.patch'
 
 buildscript {
     repositories {
@@ -11,7 +13,7 @@ buildscript {
         maven { url 'https://maven-hansel.tokopedia.com/maven' }
     }
     dependencies {
-        classpath 'io.hansel.preprocessor:preprocessor:1.0.0'
+        classpath 'io.hansel.preprocessor:preprocessor:9.1.2-dev'
     }
 }
 
@@ -78,6 +80,11 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 dependencies {
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly('io.jsonwebtoken:jjwt-orgjson:0.11.2') {
+        exclude group: 'org.json', module: 'json' //provided by Android natively
+    }
     api "com.google.android.play:core:1.6.4"
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.code.gson:gson:2.7'

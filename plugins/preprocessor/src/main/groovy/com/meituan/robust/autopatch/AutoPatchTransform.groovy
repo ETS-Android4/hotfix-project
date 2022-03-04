@@ -23,20 +23,22 @@ import java.util.zip.ZipOutputStream
  * AutoPatchTransform generate patch dex
  */
 class AutoPatchTransform extends Transform {
-    private
-    static String dex2SmaliCommand;
-    private
-    static String smali2DexCommand;
-    private
-    static String jar2DexCommand;
+    private static String dex2SmaliCommand;
+    private static String smali2DexCommand;
+    private static String jar2DexCommand;
     public static String ROBUST_DIR;
     Project project
     static Logger logger
+    def robust
 
     AutoPatchTransform(Project target) {
         this.project = target
         logger = project.logger
-        initConfig();
+        robust = new XmlSlurper().parse(new File("${project.rootDir.path}/${Constants.ROBUST_XML}"))
+        if (null != robust.switch.turnOnRobust && !"true".equals(String.valueOf(robust.switch.turnOnRobust))) {
+            return;
+        }
+        initConfig()
         project.android.registerTransform(this)
     }
 
@@ -51,7 +53,7 @@ class AutoPatchTransform extends Transform {
         def baksmaliFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[0]}"
         def smaliFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[1]}"
         def dxFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[2]}"
-        Config.robustGenerateDirectory = "${project.buildDir}" + File.separator + "$Constants.ROBUST_GENERATE_DIRECTORY" + File.separator;
+        Config.robustGenerateDirectory = "${project.rootProject.buildDir.path}" + File.separator + "$Constants.ROBUST_GENERATE_DIRECTORY" + File.separator;
         dex2SmaliCommand = "  java -jar ${baksmaliFilePath} -o classout" + File.separator + "  $Constants.CLASSES_DEX_NAME";
         smali2DexCommand = "   java -jar ${smaliFilePath} classout" + File.separator + " -o "+Constants.PATACH_DEX_NAME;
         jar2DexCommand = "   java -jar ${dxFilePath} --dex --output=$Constants.CLASSES_DEX_NAME  " + Constants.ZIP_FILE_NAME;
@@ -85,8 +87,8 @@ class AutoPatchTransform extends Transform {
         logger.quiet '================autoPatch start================'
         copyJarToRobust()
         outputProvider.deleteAll()
-        def outDir = outputProvider.getContentLocation("main", outputTypes, scopes, Format.DIRECTORY)
         project.android.bootClasspath.each {
+            println "Path : ${(String) it.absolutePath}"
             Config.classPool.appendClassPath((String) it.absolutePath)
         }
         def box = ReflectUtils.toCtClasses(inputs, Config.classPool)
@@ -94,11 +96,12 @@ class AutoPatchTransform extends Transform {
         logger.quiet "check all class cost $cost second, class count: ${box.size()}"
         autoPatch(box)
 //        JavaUtils.removeJarFromLibs()
-        logger.quiet '================method singure to methodid is printed below================'
-        JavaUtils.printMap(Config.methodMap)
+//        logger.quiet '================method singure to methodid is printed below================'
+//        JavaUtils.printMap(Config.methodMap)
         cost = (System.currentTimeMillis() - startTime) / 1000
         logger.quiet "autoPatch cost $cost second"
-        throw new RuntimeException("auto patch end successfully")
+        logger.quiet "Robust patch end successfully"
+//        throw new RuntimeException("auto patch end successfully")
     }
 
     static def copyJarToRobust() {
@@ -125,8 +128,7 @@ class AutoPatchTransform extends Transform {
     }
 
     def autoPatch(List<CtClass> box) {
-        File buildDir = project.getBuildDir();
-        String patchPath = buildDir.getAbsolutePath() + File.separator + Constants.ROBUST_GENERATE_DIRECTORY + File.separator;
+        String patchPath = project.rootProject.buildDir.absolutePath + File.separator + Constants.ROBUST_GENERATE_DIRECTORY + File.separator
         clearPatchPath(patchPath);
         ReadAnnotation.readAnnotation(box, logger);
         if(Config.supportProGuard) {
@@ -148,7 +150,6 @@ class AutoPatchTransform extends Transform {
         ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(Config.robustGenerateDirectory+ Constants.ZIP_FILE_NAME));
         zipAllPatchClasses(Config.robustGenerateDirectory+Config.patchPackageName.substring(0,Config.patchPackageName.indexOf(".")),"",zipOut);
         zipOut.close();
-
     }
 
     def zipAllPatchClasses(String path, String fullClassName, ZipOutputStream zipOut) {
@@ -230,12 +231,22 @@ class AutoPatchTransform extends Transform {
 
 
     def executeCommand(String commond) {
-        Process output = commond.execute(null, new File(Config.robustGenerateDirectory))
-        output.inputStream.eachLine { println commond + " inputStream output   " + it }
-        output.errorStream.eachLine {
-            println commond + " errorStream output   " + it;
-            throw new RuntimeException("execute command " + commond + " error");
+        println "execute command ${commond}"
+        Runtime run = Runtime.getRuntime()
+        Process pr = run.exec(commond, null, new File(Config.robustGenerateDirectory))
+        pr.waitFor()
+        BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+        String line = ""
+        while ((line=buf.readLine())!=null) {
+            System.out.println(line);
         }
+
+//        Process output = commond.execute(null, new File(Config.robustGenerateDirectory))
+//        output.inputStream.eachLine { println commond + " inputStream output   " + it }
+//        output.errorStream.eachLine {
+//            println commond + " errorStream output   " + it;
+//            throw new RuntimeException("execute command " + commond + " error");
+//        }
     }
 
 

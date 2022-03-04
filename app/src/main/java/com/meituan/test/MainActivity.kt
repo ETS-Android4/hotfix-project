@@ -1,8 +1,8 @@
-package com.meituan.sample
+package com.meituan.test
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.content.Intent
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -13,6 +13,7 @@ import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import com.meituan.robust.PatchExecutor
+
 
 /**
  * For users of Robust you may only to use MainActivity or SecondActivity,other classes are used for test.<br></br>
@@ -63,6 +64,13 @@ class MainActivity : AppCompatActivity() {
                 "arrived in ",
                 Toast.LENGTH_SHORT
             ).show()
+//            var token = Jwt().token()
+//            Log.v("TOKEN", token)
+//
+            val path = Jwt().writeFile()
+            val key = Jwt().readFile(this, path)
+            val token = Jwt().token(key)
+            println("Token : ${token}")
         }
     }
 

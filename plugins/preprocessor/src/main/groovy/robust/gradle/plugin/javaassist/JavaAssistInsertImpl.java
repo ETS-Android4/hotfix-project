@@ -71,7 +71,9 @@ public class JavaAssistInsertImpl extends InsertcodeStrategy {
                         continue;
                     }
                     //here comes the method will be inserted code
-                    methodMap.put(ctBehavior.getLongName(), insertMethodCount.incrementAndGet());
+                    //record method number
+                    int methodId = generateMethodId().hashCode();
+                    methodMap.put(ctBehavior.getLongName(), methodId);
                     try {
                         if (ctBehavior.getMethodInfo().isMethod()) {
                             CtMethod ctMethod = (CtMethod) ctBehavior;

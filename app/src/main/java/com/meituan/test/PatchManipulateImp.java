@@ -1,4 +1,4 @@
-package com.meituan.sample;
+package com.meituan.test;
 
 import android.content.Context;
 import android.os.Environment;

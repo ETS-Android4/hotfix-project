@@ -10,3 +10,4 @@ include 'plugins:preprocessor'
 //debugging
 //includeBuild 'plugins:preprocessor'
 include ':module'
+include ':apptest'

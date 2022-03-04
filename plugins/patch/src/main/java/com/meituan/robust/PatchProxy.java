@@ -47,9 +47,9 @@ public class PatchProxy {
     }
 
     public static boolean isSupport(Object[] paramsArray, Object current, ChangeQuickRedirect changeQuickRedirect, boolean isStatic, int methodNumber, Class[] paramsClassTypes, Class returnType) {
-        //Robust补丁优先执行，其他功能靠后
+        //Robust patches will be executed first, other functions will be later
         if (changeQuickRedirect == null) {
-            //不执行补丁，轮询其他监听者
+            //Do not execute patches, poll other listeners
             if (registerExtensionList == null || registerExtensionList.isEmpty()) {
                 return false;
             }

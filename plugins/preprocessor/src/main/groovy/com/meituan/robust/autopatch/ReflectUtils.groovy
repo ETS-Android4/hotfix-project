@@ -2,6 +2,9 @@ package com.meituan.robust.autopatch
 
 import com.android.SdkConstants
 import com.android.build.api.transform.TransformInput
+import com.android.build.gradle.api.BaseVariant
+import com.android.builder.model.AndroidProject
+import com.google.common.base.Joiner
 import com.meituan.robust.Constants
 import com.meituan.robust.utils.JavaUtils
 import javassist.*
@@ -10,6 +13,7 @@ import javassist.expr.Cast
 import javassist.expr.MethodCall
 import javassist.expr.NewExpr
 import org.apache.commons.io.FileUtils
+import org.gradle.api.Project
 
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
@@ -19,6 +23,115 @@ class ReflectUtils {
 
     public static final Boolean INLINE_R_FILE = true;
     public static int invokeCount = 0;
+
+    static String getCompiledClassesPathForKotlin(BaseVariant variant) {
+        String[] directorySegments = variant.getVariantData().getVariantDslInfo().getDirectorySegments()
+        StringBuilder stringBuilder = new StringBuilder()
+        if (directorySegments != null && directorySegments.length > 0) {
+            for (int i = 0; i < directorySegments.length; i++) {
+                String directorySegment = directorySegments[i]
+                if (i > 0) {
+                    directorySegment = directorySegment.substring(0, 1).toUpperCase() + directorySegment.substring(1)
+                }
+                stringBuilder.append(directorySegment)
+            }
+        }
+        String[] componentList = com.android.utils.StringHelper.toStrings("tmp", "kotlin-classes", stringBuilder.toString())
+        String newBuildPath = "/" + Joiner.on(File.separatorChar).join(componentList)
+        return newBuildPath.replace("/", File.separator)
+    }
+
+    static String getCompiledClassesPathForLibrary(BaseVariant variant) {
+        String[] directorySegments = variant.getVariantData().getVariantDslInfo().getDirectorySegments()
+        StringBuilder stringBuilder = new StringBuilder()
+        if (directorySegments != null && directorySegments.length > 0) {
+            for (int i = 0; i < directorySegments.length; i++) {
+                String directorySegment = directorySegments[i]
+                if (i > 0) {
+                    directorySegment = directorySegment.substring(0, 1).toUpperCase() + directorySegment.substring(1)
+                }
+                stringBuilder.append(directorySegment)
+            }
+        }
+        String[] componentList = com.android.utils.StringHelper.toStrings(AndroidProject.FD_INTERMEDIATES, "javac",
+                stringBuilder.toString(), "classes")
+        String newBuildPath = "/" + Joiner.on(File.separatorChar).join(componentList)
+        return newBuildPath.replace("/", File.separator)
+    }
+
+    static String getCompiledClassesPathForAppBundle(String compileTaskName, BaseVariant variant) {
+        String[] directorySegments = variant.getVariantData().getVariantDslInfo().getDirectorySegments()
+        StringBuilder stringBuilder = new StringBuilder()
+        if (directorySegments != null && directorySegments.length > 0) {
+            for (int i = 0; i < directorySegments.length; i++) {
+                String directorySegment = directorySegments[i]
+                if (i > 0) {
+                    directorySegment = directorySegment.substring(0, 1).toUpperCase() + directorySegment.substring(1)
+                }
+                stringBuilder.append(directorySegment)
+            }
+        }
+        String[] componentList = com.android.utils.StringHelper.toStrings(AndroidProject.FD_INTERMEDIATES, "javac",
+                stringBuilder.toString(), compileTaskName, "classes")
+        String newBuildPath = "/" + Joiner.on(File.separatorChar).join(componentList)
+        return newBuildPath.replace("/", File.separator)
+    }
+
+    static List<CtClass> toCtClasses(Project project, BaseVariant variant, ClassPool classPool) {
+        List<String> classNames = new ArrayList<>()
+        List<CtClass> allClass = new ArrayList<>();
+        def startTime = System.currentTimeMillis()
+        String path = project.buildDir.getPath() + getCompiledClassesPathForLibrary(variant)
+        String pathKt = project.buildDir.getPath() + getCompiledClassesPathForKotlin(variant)
+        println("path :${path}")
+        println("pathKt :${pathKt}")
+
+        List<String> directoryInputs = new ArrayList<>();
+        List<String> jarInputs = new ArrayList<>();
+        directoryInputs.add(path)
+        directoryInputs.add(pathKt)
+        directoryInputs.add("/Users/erry.suprayogi/StudioProjects/Robust/plugins/patch/build/intermediates/javac/release/classes")
+//        jarInputs.add("/Users/erry.suprayogi/StudioProjects/Robust/plugins/patch/build/intermediates/runtime_library_classes_jar/release/classes.jar")
+        jarInputs.add("/Users/erry.suprayogi/StudioProjects/Robust/plugins/autopatchbase/build/libs/autopatchbase-2.0.5.jar")
+
+        directoryInputs.forEach { p ->
+            classPool.insertClassPath(p)
+            FileUtils.listFiles(new File(p), null, true).each {
+                if (it.absolutePath.endsWith(SdkConstants.DOT_CLASS)) {
+                    def className = it.absolutePath.substring(p.length() + 1, it.absolutePath.length() - SdkConstants.DOT_CLASS.length()).replaceAll(Matcher.quoteReplacement(File.separator), '.')
+                    println("className ${className}")
+                    classNames.add(className)
+                }
+            }
+        }
+
+        jarInputs.forEach {p->
+            classPool.insertClassPath(p)
+            def jarFile = new JarFile(new File(p))
+            Enumeration<JarEntry> classes = jarFile.entries();
+            while (classes.hasMoreElements()) {
+                JarEntry libClass = classes.nextElement();
+                String className = libClass.getName();
+                if (className.endsWith(SdkConstants.DOT_CLASS)) {
+                    className = className.substring(0, className.length() - SdkConstants.DOT_CLASS.length()).replaceAll('/', '.')
+                    classNames.add(className)
+                }
+            }
+        }
+
+        def cost = (System.currentTimeMillis() - startTime) / 1000
+        println "autopatch read all class file cost $cost second"
+        classNames.each {
+            try {
+                allClass.add(classPool.get(it));
+            } catch (NotFoundException e) {
+                println "class not found exception class name:  $it "
+                e.printStackTrace()
+
+            }
+        }
+        return allClass;
+    }
 
     static List<CtClass> toCtClasses(Collection<TransformInput> inputs, ClassPool classPool) {
         List<String> classNames = new ArrayList<>()
@@ -527,7 +640,8 @@ class ReflectUtils {
                 } else {
                     value = name;
                 }
-                AutoPatchTransform.logger.warn("Warning  class name  " + name + "   can not find in mapping !! ")
+                System.err.println("Warning  class name  " + name + "   can not find in mapping !! ")
+//                AutoPatchTransform.logger.warn("Warning  class name  " + name + "   can not find in mapping !! ")
 //                JavaUtils.printMap(memberMappingInfo)
             }
             return value;
