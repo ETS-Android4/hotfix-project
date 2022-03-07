@@ -1,7 +1,7 @@
 package robust.gradle.plugin.asm;
 
-import com.meituan.robust.ChangeQuickRedirect;
-import com.meituan.robust.Constants;
+import com.tokopedia.stability.ChangeDelegate;
+import com.tokopedia.stability.Constants;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -86,7 +86,7 @@ public class AsmInsertImpl extends InsertcodeStrategy {
             this.className = className;
             this.methodInstructionTypeMap = methodInstructionTypeMap;
             //insert the field
-            classWriter.visitField(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC, Constants.INSERT_FIELD_NAME, Type.getDescriptor(ChangeQuickRedirect.class), null, null);
+            classWriter.visitField(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC, Constants.INSERT_FIELD_NAME, Type.getDescriptor(ChangeDelegate.class), null, null);
         }
 
 

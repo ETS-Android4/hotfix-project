@@ -1,6 +1,6 @@
 package com.meituan.robust.autopatch;
 
-import com.meituan.robust.Constants;
+import com.tokopedia.stability.Constants;
 import com.meituan.robust.utils.JavaUtils;
 
 import javassist.CtClass;

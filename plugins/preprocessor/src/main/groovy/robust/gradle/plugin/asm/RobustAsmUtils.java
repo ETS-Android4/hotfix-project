@@ -1,5 +1,7 @@
 package robust.gradle.plugin.asm;
 
+import com.tokopedia.stability.ChangeDelegate;
+
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -11,9 +13,9 @@ import java.util.List;
 
 public final class RobustAsmUtils {
 
-    public final static String REDIRECTFIELD_NAME = "changeQuickRedirect";
-    public final static String REDIRECTCLASSNAME = Type.getDescriptor(com.meituan.robust.ChangeQuickRedirect.class);
-    public final static String PROXYCLASSNAME = "com.meituan.robust.PatchProxy".replace(".", "/");
+    public final static String REDIRECTFIELD_NAME = "changeDelegate";
+    public final static String REDIRECTCLASSNAME = Type.getDescriptor(ChangeDelegate.class);
+    public final static String PROXYCLASSNAME = "com.tokopedia.stability.PatchProxy".replace(".", "/");
 
     /**
      * insert code
@@ -30,14 +32,14 @@ public final class RobustAsmUtils {
         mv.visitMethodInsn(Opcodes.INVOKESTATIC,
                 PROXYCLASSNAME,
                 "proxy",
-                "([Ljava/lang/Object;Ljava/lang/Object;" + REDIRECTCLASSNAME + "ZI[Ljava/lang/Class;Ljava/lang/Class;)Lcom/meituan/robust/PatchProxyResult;",
+                "([Ljava/lang/Object;Ljava/lang/Object;" + REDIRECTCLASSNAME + "ZI[Ljava/lang/Class;Ljava/lang/Class;)Lcom/tokopedia/stability/PatchProxyResult;",
                 false);
 
-        int local = mv.newLocal(Type.getType("Lcom/meituan/robust/PatchProxyResult;"));
+        int local = mv.newLocal(Type.getType("Lcom/tokopedia/stability/PatchProxyResult;"));
         mv.storeLocal(local);
         mv.loadLocal(local);
 
-        mv.visitFieldInsn(Opcodes.GETFIELD, "com/meituan/robust/PatchProxyResult", "isSupported", "Z");
+        mv.visitFieldInsn(Opcodes.GETFIELD, "com/tokopedia/stability/PatchProxyResult", "isSupported", "Z");
 
         // if isSupported
         Label l1 = new Label();
@@ -48,7 +50,7 @@ public final class RobustAsmUtils {
             mv.visitInsn(Opcodes.RETURN);
         } else {
             mv.loadLocal(local);
-            mv.visitFieldInsn(Opcodes.GETFIELD, "com/meituan/robust/PatchProxyResult", "result", "Ljava/lang/Object;");
+            mv.visitFieldInsn(Opcodes.GETFIELD, "com/tokopedia/stability/PatchProxyResult", "result", "Ljava/lang/Object;");
             //coercion type
             if (!castPrimateToObj(mv, returnType.getDescriptor())) {
                 //It should be noted here that if it is the direct use of the array type, if it is not an array type, the prefix has to be removed, and there is no terminator in the end;

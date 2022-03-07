@@ -1,14 +1,14 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 /**
  * Created by zhangmeng on 2017/4/21.
  */
 
-public interface RobustExtension  {
+public interface StabilityExtension {
     /**
      *
      * @return Regarding the description of the access party information, please ensure that each business party is independent and different, and the only one remains unchanged.
-     * It is recommended to use the package name of each business party + some functional descriptions, such as: com.meituan.robust android hot update system
+     * It is recommended to use the package name of each business party + some functional descriptions, such as: com.tokopedia.stability android hot update system
      */
     String describeSelfFunction();
 
@@ -27,7 +27,7 @@ public interface RobustExtension  {
      * @return
      *
      */
-    Object accessDispatch(RobustArguments robustArguments);
+    Object accessDispatch(StabilityArguments stabilityArguments);
 
     /**
      *@param paramsArray parameter list of the original method
@@ -39,6 +39,6 @@ public interface RobustExtension  {
      * @return return true means do not continue to execute the original method body, only execute the logic of the accessDispatch method, and use the return value of the accessDispatch method as the return value of the original function
      * return false represents the execution of the original method body, but additional logic can be added to the isSupport method, such as recording the current method call stack or log, etc.
      */
-    boolean isSupport(RobustArguments robustArguments);
+    boolean isSupport(StabilityArguments stabilityArguments);
 
 }

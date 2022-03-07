@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-import com.meituan.robust.Patch;
-import com.meituan.robust.PatchManipulate;
-import com.meituan.robust.RobustApkHashUtils;
+import com.tokopedia.stability.Patch;
+import com.tokopedia.stability.StabilityManipulate;
+import com.tokopedia.stability.ApkHashUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ import java.util.List;
  *     setTempPath设置的补丁加载完毕即刻删除，如果不需要加密和解密补丁，两者没有啥区别
  */
 
-public class PatchManipulateImp extends PatchManipulate {
+public class StabilityManipulateImp extends StabilityManipulate {
     /***
      * connect to the network ,get the latest patches
      * l联网获取最新的补丁
@@ -46,7 +46,7 @@ public class PatchManipulateImp extends PatchManipulate {
     protected List<Patch> fetchPatchList(Context context) {
         //Report the app's own robustApkHash to the server, and the server differentiates each apk build according to robustApkHash to issue patches to the app
         //apkhash is the unique identifier for apk, so you cannnot patch wrong apk.
-        String robustApkHash = RobustApkHashUtils.readRobustApkHash(context);
+        String robustApkHash = ApkHashUtils.readRobustApkHash(context);
         Log.w("robust","robustApkHash :" + robustApkHash);
         //connect to network to get patch list on servers
         //Go to the Internet here to get the patch list

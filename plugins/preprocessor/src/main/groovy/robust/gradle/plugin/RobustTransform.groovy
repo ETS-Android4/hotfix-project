@@ -3,7 +3,7 @@ package robust.gradle.plugin
 import com.android.build.api.transform.*
 import com.android.build.gradle.FeaturePlugin
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.meituan.robust.Constants
+import com.tokopedia.stability.Constants
 import com.meituan.robust.utils.JavaUtils
 //import com.robust.plugins.BuildConfig
 import javassist.ClassPool

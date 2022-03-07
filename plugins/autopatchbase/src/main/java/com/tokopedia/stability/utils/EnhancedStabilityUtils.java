@@ -1,4 +1,4 @@
-package com.meituan.robust.utils;
+package com.tokopedia.stability.utils;
 
 
 import java.lang.reflect.Constructor;
@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
  * <p>
  * A reflect utility class, providing methods for reflecting methods and set/get fields
  */
-public class EnhancedRobustUtils {
+public class EnhancedStabilityUtils {
     public static boolean isThrowable = true;
 
     public static Object invokeReflectConstruct(String className, Object[] parameter, Class[] args) {

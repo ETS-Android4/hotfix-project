@@ -17,7 +17,7 @@ plugins {
 //    id "de.fuerstenau.buildconfig" version "1.1.8"
 }
 
-group = 'com.robust.plugins'
+group = 'com.tokopedia.patch'
 archivesBaseName = 'preprocessor'
 version = '2.0.5'
 
@@ -40,7 +40,7 @@ dependencies {
     implementation 'org.javassist:javassist:3.28.0-GA'
     implementation fileTree(dir: "./src/main/libs", include: ['*.jar'])
     implementation 'org.ow2.asm:asm:9.1'
-    implementation 'com.robust.plugins:autopatchbase:2.0.0'
+    implementation 'com.tokopedia.patch:autopatchbase:2.0.5'
 }
 
 sourceSets {

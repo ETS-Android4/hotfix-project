@@ -1,7 +1,7 @@
-package com.meituan.robust.utils;
+package com.tokopedia.stability.utils;
 
 
-import com.meituan.robust.ChangeQuickRedirect;
+import com.tokopedia.stability.ChangeDelegate;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -9,7 +9,7 @@ import java.util.WeakHashMap;
 /**
  * Created by mivanzhang on 16/7/26.
  */
-public class PatchTemplate implements ChangeQuickRedirect {
+public class PatchTemplate implements ChangeDelegate {
     public static final String MATCH_ALL_PARAMETER = "(\\w*\\.)*\\w*";
 
     public PatchTemplate() {

@@ -1,10 +1,10 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 import java.io.File;
 
 /**
  * Created by mivanzhang on 15/7/23.
- * 补丁定义
+ * Patch Definition
  */
 public class Patch implements Cloneable {
     //The number of the patch, the unique identifier of the patch
@@ -31,7 +31,7 @@ public class Patch implements Cloneable {
     public void setLocalPath(String localPath) {
         this.localPath = localPath;
     }
-    //原始补丁的md5，确保原始补丁文件没有被篡改
+    //md5 of the original patch, to ensure that the original patch file has not been tampered with
     public String getMd5() {
         return md5;
     }
@@ -42,12 +42,12 @@ public class Patch implements Cloneable {
 
     private String patchesInfoImplClassFullName;
     /**
-     * 补丁名称
+     * patch name
      */
     private String name;
 
     /**
-     * 补丁的下载url
+     * Patch download url
      */
     private String url;
     /**
@@ -76,12 +76,12 @@ public class Patch implements Cloneable {
     }
 
     /**
-     * 补丁是否已经applied success
+     * Whether the patch has been applied success
      */
     private boolean isAppliedSuccess;
 
     /**
-     * 删除文件
+     * Delete Files
      */
     public void delete(String path) {
         File f = new File(path);
@@ -103,7 +103,7 @@ public class Patch implements Cloneable {
     public void setAppHash(String appHash) {
         this.appHash = appHash;
     }
-    //解密之后的补丁文件，可以直接运行的补丁文件，建议加载之后立刻删除，保证安全性
+    //The decrypted patch file is a patch file that can be run directly. It is recommended to delete it immediately after loading to ensure security.
     public String getTempPath() {
         return tempPath + "_temp" + ".jar";
     }

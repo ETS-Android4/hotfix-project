@@ -1,8 +1,8 @@
--keep class com.meituan.robust.**{*;}
--keep class meituan.robust.**{*;}
+-keep class com.tokopedia.stability.**{*;}
+-keep class com.tokopedia.stability.**{*;}
 -keep class com.google.gson.**{*;}
 -keepattributes *Annotation*
 -keepclassmembers class **{
-public static com.meituan.robust.ChangeQuickRedirect *;
+public static com.tokopedia.stability.ChangeDelegate *;
 }
 

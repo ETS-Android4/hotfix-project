@@ -1,6 +1,6 @@
 package com.meituan.robust.autopatch;
 
-import com.meituan.robust.Constants;
+import com.tokopedia.stability.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Set;
 import javassist.ClassPool;
 import javassist.CtMethod;
 
-import static com.meituan.robust.Constants.DEFAULT_MAPPING_FILE;
+import static com.tokopedia.stability.Constants.DEFAULT_MAPPING_FILE;
 
 /**
  * Created by mivanzhang on 16/12/2.

@@ -1,8 +1,8 @@
 package com.meituan.robust.autopatch
 
-import com.meituan.robust.Constants
-import com.meituan.robust.patch.annotaion.Add
-import com.meituan.robust.patch.annotaion.Modify
+import com.tokopedia.stability.Constants
+import com.tokopedia.stability.patch.annotaion.Add
+import com.tokopedia.stability.patch.annotaion.Modify
 import com.meituan.robust.utils.JavaUtils
 import javassist.CannotCompileException
 import javassist.CtClass

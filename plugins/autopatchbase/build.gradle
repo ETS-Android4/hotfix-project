@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-group = 'com.robust.plugins'
+group = 'com.tokopedia.patch'
 archivesBaseName = 'autopatchbase'
 version = '2.0.5'
 

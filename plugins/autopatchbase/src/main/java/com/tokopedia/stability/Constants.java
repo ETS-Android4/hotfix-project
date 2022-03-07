@@ -1,4 +1,4 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -12,14 +12,14 @@ import java.util.Set;
 public class Constants {
 
     public static final String ORIGINCLASS = "originClass";
-    public static final String MODIFY_ANNOTATION = "com.meituan.robust.patch.annotaion.Modify";
+    public static final String MODIFY_ANNOTATION = "com.tokopedia.stability.patch.annotaion.Modify";
     //    public static final String MODIFY_ANNOTATION = Modify.class.getCanonicalName();
-    public static final String ADD_ANNOTATION = "com.meituan.robust.patch.annotaion.Add";
+    public static final String ADD_ANNOTATION = "com.tokopedia.stability.patch.annotaion.Add";
     //    public static final String ADD_ANNOTATION = Add.class.getCanonicalName();
-    public static final String LAMBDA_MODIFY = "com.meituan.robust.patch.RobustModify";
+    public static final String LAMBDA_MODIFY = "com.tokopedia.stability.patch.InlineModify";
     //    public static final String LAMBDA_MODIFY = RobustModify.class.getCanonicalName();
 
-    public static final String PATCH_TEMPLATE_FULL_NAME = "com.meituan.robust.utils.PatchTemplate";
+    public static final String PATCH_TEMPLATE_FULL_NAME = "com.tokopedia.stability.utils.PatchTemplate";
 
 
     public static final String ZIP_FILE_NAME = "meituan.jar";
@@ -33,7 +33,7 @@ public class Constants {
     public static final String ROBUST_ASSIST_SUFFIX = "RobustAssist";
     public static final String ROBUST_PUBLIC_SUFFIX = "RobustPublic";
     public static final String GET_REAL_PARAMETER = "getRealParameter";
-    public static final String ROBUST_UTILS_FULL_NAME = "com.meituan.robust.utils.EnhancedRobustUtils";
+    public static final String ROBUST_UTILS_FULL_NAME = "com.tokopedia.stability.utils.EnhancedStabilityUtils";
 
     public static final String ROBUST_GENERATE_DIRECTORY = "outputs/robust";
 
@@ -58,7 +58,7 @@ public class Constants {
     //    public static final Boolean isLogging = false;
     public static boolean isLogging = true;
 
-    public static final String PATCH_PACKAGENAME = "com.meituan.robust.patch";
+    public static final String PATCH_PACKAGENAME = "com.tokopedia.stability.patch";
     public static final Set RFileClassSet = new HashSet();
     public final static String ROBUST_XML = "robust.xml";
 
@@ -104,8 +104,8 @@ public class Constants {
 
     public static final String METHOD_MAP_OUT_PATH = "/outputs/robust/tmp/methodsMap.robust";
     public static final String MAPPING_OUT_PATH = "/outputs/robust/tmp/mapping.txt";
-    public static final String INTERFACE_NAME = "com.meituan.robust.ChangeQuickRedirect";
-    public static final String INSERT_FIELD_NAME = "changeQuickRedirect";
+    public static final String INTERFACE_NAME = "com.tokopedia.stability.ChangeDelegate";
+    public static final String INSERT_FIELD_NAME = "changeDelegate";
     public static final List<String> NO_NEED_REFLECT_CLASS = Arrays.asList("android.os.Bundle","android.os.BaseBundle");
 
     //robust apk hash : apk's unique id

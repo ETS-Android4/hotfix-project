@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
-import com.meituan.robust.patch.annotaion.Modify
+import com.tokopedia.stability.patch.annotaion.Modify
 import com.meituan.test.BaseSplitActivity
 import java.lang.reflect.Field
 

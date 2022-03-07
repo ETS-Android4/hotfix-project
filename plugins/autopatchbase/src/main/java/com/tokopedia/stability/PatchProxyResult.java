@@ -1,4 +1,4 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 /**
  * 辅助model定义

@@ -1,4 +1,4 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 /**
  * Created by hedex on 17/2/27.
  */
-public class RobustApkHashUtils {
+public class ApkHashUtils {
     private static String robustApkHashValue;
 
     public static String readRobustApkHash(Context context) {

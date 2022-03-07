@@ -1,6 +1,6 @@
 package com.meituan.robust.utils;
 
-import com.meituan.robust.Constants;
+import com.tokopedia.stability.Constants;
 import com.meituan.robust.autopatch.ClassMapping;
 import com.meituan.robust.autopatch.Config;
 import com.meituan.robust.autopatch.NameManger;
@@ -22,8 +22,8 @@ import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.CtPrimitiveType;
 
-import static com.meituan.robust.Constants.PACKNAME_END;
-import static com.meituan.robust.Constants.PACKNAME_START;
+import static com.tokopedia.stability.Constants.PACKNAME_END;
+import static com.tokopedia.stability.Constants.PACKNAME_START;
 import static com.meituan.robust.autopatch.Config.classPool;
 import static com.meituan.robust.autopatch.Config.invokeSuperMethodMap;
 

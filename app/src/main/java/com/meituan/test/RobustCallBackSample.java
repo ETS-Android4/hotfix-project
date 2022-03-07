@@ -2,15 +2,15 @@ package com.meituan.test;
 
 import android.util.Log;
 
-import com.meituan.robust.Patch;
-import com.meituan.robust.RobustCallBack;
+import com.tokopedia.stability.Patch;
+import com.tokopedia.stability.StabilityCallBack;
 
 import java.util.List;
 
 /**
  * Created by hedingxu on 17/11/26.
  */
-public class RobustCallBackSample implements RobustCallBack {
+public class RobustCallBackSample implements StabilityCallBack {
 
     @Override
     public void onPatchListFetched(boolean result, boolean isNet, List<Patch> patches) {

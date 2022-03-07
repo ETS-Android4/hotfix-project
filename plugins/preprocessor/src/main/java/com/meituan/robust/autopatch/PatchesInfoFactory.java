@@ -1,6 +1,6 @@
 package com.meituan.robust.autopatch;
 
-import com.meituan.robust.Constants;
+import com.tokopedia.stability.Constants;
 
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -26,15 +26,15 @@ public class PatchesInfoFactory {
         try {
             CtClass ctPatchesInfoImpl = classPool.makeClass(Config.patchPackageName + ".PatchesInfoImpl");
             ctPatchesInfoImpl.getClassFile().setMajorVersion(ClassFile.JAVA_7);
-            ctPatchesInfoImpl.setInterfaces(new CtClass[]{classPool.get("com.meituan.robust.PatchesInfo")});
+            ctPatchesInfoImpl.setInterfaces(new CtClass[]{classPool.get("com.tokopedia.stability.PatchesInfo")});
             StringBuilder methodBody = new StringBuilder();
             methodBody.append("public java.util.List getPatchedClassesInfo() {");
             methodBody.append("  java.util.List patchedClassesInfos = new java.util.ArrayList();");
             for (int i = 0; i < Config.modifiedClassNameList.size(); i++) {
                 if (Constants.OBSCURE) {
-                    methodBody.append("com.meituan.robust.PatchedClassInfo patchedClass" + i + " = new com.meituan.robust.PatchedClassInfo(\"" + ReadMapping.getInstance().getClassMappingOrDefault(Config.modifiedClassNameList.get(i)).getValueName() + "\",\"" + NameManger.getInstance().getPatchControlName(Config.modifiedClassNameList.get(i).substring(Config.modifiedClassNameList.get(i).lastIndexOf('.') + 1)) + "\");");
+                    methodBody.append("com.tokopedia.stability.PatchedClassInfo patchedClass" + i + " = new com.tokopedia.stability.PatchedClassInfo(\"" + ReadMapping.getInstance().getClassMappingOrDefault(Config.modifiedClassNameList.get(i)).getValueName() + "\",\"" + NameManger.getInstance().getPatchControlName(Config.modifiedClassNameList.get(i).substring(Config.modifiedClassNameList.get(i).lastIndexOf('.') + 1)) + "\");");
                 } else {
-                    methodBody.append("com.meituan.robust.PatchedClassInfo patchedClass" + i + " = new com.meituan.robust.PatchedClassInfo(\"" + Config.modifiedClassNameList.get(i) + "\",\"" + NameManger.getInstance().getPatchControlName(Config.modifiedClassNameList.get(i).substring(Config.modifiedClassNameList.get(i).lastIndexOf('.') + 1)) + "\");");
+                    methodBody.append("com.tokopedia.stability.PatchedClassInfo patchedClass" + i + " = new com.tokopedia.stability.PatchedClassInfo(\"" + Config.modifiedClassNameList.get(i) + "\",\"" + NameManger.getInstance().getPatchControlName(Config.modifiedClassNameList.get(i).substring(Config.modifiedClassNameList.get(i).lastIndexOf('.') + 1)) + "\");");
                 }
                 methodBody.append("patchedClassesInfos.add(patchedClass" + i + ");");
             }

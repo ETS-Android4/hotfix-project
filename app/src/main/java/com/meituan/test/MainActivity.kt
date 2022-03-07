@@ -12,7 +12,6 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
-import com.meituan.robust.PatchExecutor
 
 
 /**
@@ -123,7 +122,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun runRobust() {
-        PatchExecutor(applicationContext, PatchManipulateImp(), RobustCallBackSample()).start()
+//        PatchExecutor(
+//            applicationContext,
+//            StabilityManipulateImp(),
+//            RobustCallBackSample()
+//        ).start()
     }
 
     override fun onResume() {

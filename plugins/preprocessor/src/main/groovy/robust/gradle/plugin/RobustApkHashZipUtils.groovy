@@ -1,6 +1,6 @@
 package robust.gradle.plugin
 
-import com.meituan.robust.Constants
+import com.tokopedia.stability.Constants
 
 import java.util.zip.*
 

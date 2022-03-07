@@ -22,13 +22,13 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
-//        classpath "com.android.tools.build:gradle:7.0.3"
-        classpath "com.android.tools.build:gradle:4.2.1"
+        classpath "com.android.tools.build:gradle:7.0.3"
+//        classpath "com.android.tools.build:gradle:4.2.1"
 //        classpath "com.android.tools.build:gradle:4.0.0"
 //        classpath "com.android.tools.build:gradle:3.5.4"
 
-        classpath 'com.robust.plugins:preprocessor:2.0.5'
-        classpath 'com.robust.plugins:autopatchbase:2.0.5'
+        classpath 'com.tokopedia.patch:preprocessor:2.0.5'
+        classpath 'com.tokopedia.patch:autopatchbase:2.0.5'
         classpath 'io.hansel.preprocessor:preprocessor:9.1.2-dev'
 
     }

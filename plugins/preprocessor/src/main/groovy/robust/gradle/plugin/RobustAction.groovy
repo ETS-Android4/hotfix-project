@@ -3,7 +3,7 @@ package robust.gradle.plugin
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.api.BaseVariant
 import com.google.common.io.Files
-import com.meituan.robust.Constants
+import com.tokopedia.stability.Constants
 import com.meituan.robust.utils.ZipUsingJavaUtil
 import org.gradle.api.Action
 import org.gradle.api.Project

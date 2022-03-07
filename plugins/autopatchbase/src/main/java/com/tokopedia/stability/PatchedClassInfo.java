@@ -1,4 +1,4 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 /**
  * Created by hedex on 16/6/3.

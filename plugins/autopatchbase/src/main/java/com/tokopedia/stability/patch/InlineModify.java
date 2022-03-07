@@ -1,4 +1,4 @@
-package com.meituan.robust.patch;
+package com.tokopedia.stability.patch;
 
 /**
  * Created by mivanzhang on 16/12/9.
@@ -6,7 +6,7 @@ package com.meituan.robust.patch;
  * A backup for annotation Modify, in some situation Modify will not work, such as Generic
  */
 
-public final class RobustModify {
+public final class InlineModify {
     public static final void modify() {
 
     }

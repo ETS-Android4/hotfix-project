@@ -5,7 +5,7 @@ import com.android.build.api.transform.TransformInput
 import com.android.build.gradle.api.BaseVariant
 import com.android.builder.model.AndroidProject
 import com.google.common.base.Joiner
-import com.meituan.robust.Constants
+import com.tokopedia.stability.Constants
 import com.meituan.robust.utils.JavaUtils
 import javassist.*
 import javassist.bytecode.AccessFlag

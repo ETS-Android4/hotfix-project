@@ -1,6 +1,6 @@
 package com.meituan.robust.utils;
 
-import com.meituan.robust.Constants;
+import com.tokopedia.stability.Constants;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -27,7 +27,7 @@ import javassist.CtMethod;
 import javassist.CtNewConstructor;
 import javassist.NotFoundException;
 
-import static com.meituan.robust.Constants.ORIGINCLASS;
+import static com.tokopedia.stability.Constants.ORIGINCLASS;
 
 /**
  * Created by mivanzhang on 16/11/25.

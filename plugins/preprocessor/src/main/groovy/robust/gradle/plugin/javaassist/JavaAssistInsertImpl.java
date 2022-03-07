@@ -1,6 +1,6 @@
 package robust.gradle.plugin.javaassist;
 
-import com.meituan.robust.Constants;
+import com.tokopedia.stability.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -86,8 +86,8 @@ public class JavaAssistInsertImpl extends InsertcodeStrategy {
                                 body += "argThis = $0;";
                             }
                             String parametersClassType = getParametersClassType(ctMethod);
-//                                body += "   if (com.meituan.robust.PatchProxy.isSupport(\$args, argThis, ${Constants.INSERT_FIELD_NAME}, $isStatic, " + methodMap.get(ctBehavior.longName) + ",${parametersClassType},${returnTypeString}.class)) {"
-                            body += "   if (com.meituan.robust.PatchProxy.isSupport($args, argThis, " + Constants.INSERT_FIELD_NAME + ", " + isStatic +
+//                                body += "   if (com.tokopedia.stability.PatchProxy.isSupport(\$args, argThis, ${Constants.INSERT_FIELD_NAME}, $isStatic, " + methodMap.get(ctBehavior.longName) + ",${parametersClassType},${returnTypeString}.class)) {"
+                            body += "   if (com.tokopedia.stability.PatchProxy.isSupport($args, argThis, " + Constants.INSERT_FIELD_NAME + ", " + isStatic +
                                     ", " + methodMap.get(ctBehavior.getLongName()) + "," + parametersClassType + "," + returnTypeString + ".class)) {";
                             body += getReturnStatement(returnTypeString, isStatic, methodMap.get(ctBehavior.getLongName()), parametersClassType, returnTypeString + ".class");
                             body += "   }";
@@ -274,53 +274,53 @@ public class JavaAssistInsertImpl extends InsertcodeStrategy {
     private String getReturnStatement(String type, boolean isStatic, int methodId, String parametersClassType, String returnTypeString) {
         switch (type) {
             case Constants.CONSTRUCTOR:
-                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");  ";
+                return "    com.tokopedia.stability.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");  ";
             case Constants.LANG_VOID:
-                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");   return null;";
+                return "    com.tokopedia.stability.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");   return null;";
 
             case Constants.VOID:
-                return "    com.meituan.robust.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");   return ;";
+                return "    com.tokopedia.stability.PatchProxy.accessDispatchVoid( $args, argThis, changeQuickRedirect, " + isStatic + ", " + methodId + "," + parametersClassType + "," + returnTypeString + ");   return ;";
 
             case Constants.LANG_BOOLEAN:
-                return "   return ((java.lang.Boolean)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Boolean)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
             case Constants.BOOLEAN:
-                return "   return ((java.lang.Boolean)com.meituan.robust.PatchProxy.accessDispatch($args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).booleanValue();";
+                return "   return ((java.lang.Boolean)com.tokopedia.stability.PatchProxy.accessDispatch($args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).booleanValue();";
 
             case Constants.INT:
-                return "   return ((java.lang.Integer)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).intValue();";
+                return "   return ((java.lang.Integer)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).intValue();";
             case Constants.LANG_INT:
-                return "   return ((java.lang.Integer)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")); ";
+                return "   return ((java.lang.Integer)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")); ";
 
             case Constants.LONG:
-                return "   return ((java.lang.Long)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).longValue();";
+                return "   return ((java.lang.Long)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).longValue();";
             case Constants.LANG_LONG:
-                return "   return ((java.lang.Long)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Long)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
 
             case Constants.DOUBLE:
-                return "   return ((java.lang.Double)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).doubleValue();";
+                return "   return ((java.lang.Double)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).doubleValue();";
             case Constants.LANG_DOUBLE:
-                return "   return ((java.lang.Double)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Double)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
 
             case Constants.FLOAT:
-                return "   return ((java.lang.Float)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).floatValue();";
+                return "   return ((java.lang.Float)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).floatValue();";
             case Constants.LANG_FLOAT:
-                return "   return ((java.lang.Float)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Float)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
 
             case Constants.SHORT:
-                return "   return ((java.lang.Short)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).shortValue();";
+                return "   return ((java.lang.Short)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).shortValue();";
             case Constants.LANG_SHORT:
-                return "   return ((java.lang.Short)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Short)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
 
             case Constants.BYTE:
-                return "   return ((java.lang.Byte)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).byteValue();";
+                return "   return ((java.lang.Byte)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).byteValue();";
             case Constants.LANG_BYTE:
-                return "   return ((java.lang.Byte)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Byte)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
             case Constants.CHAR:
-                return "   return ((java.lang.Character)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).charValue();";
+                return "   return ((java.lang.Character)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ")).charValue();";
             case Constants.LANG_CHARACTER:
-                return "   return ((java.lang.Character)com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
+                return "   return ((java.lang.Character)com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + "));";
             default:
-                return "   return (" + type + ")com.meituan.robust.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ");";
+                return "   return (" + type + ")com.tokopedia.stability.PatchProxy.accessDispatch( $args, argThis, changeQuickRedirect, " + isStatic + "," + methodId + "," + parametersClassType + "," + returnTypeString + ");";
         }
     }
 }

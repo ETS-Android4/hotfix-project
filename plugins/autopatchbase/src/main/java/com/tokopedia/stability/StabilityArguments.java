@@ -1,10 +1,10 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 /**
  * Created by zhangmeng on 2017/5/9.
  */
 
-public class RobustArguments {
+public class StabilityArguments {
     public Object[] paramsArray;
     public Object current;
     public  boolean isStatic;
@@ -12,7 +12,7 @@ public class RobustArguments {
     public Class[] paramsClassTypes;
     public Class returnType;
 
-    public RobustArguments(Object[] paramsArray, Object current,  boolean isStatic, int methodNumber, Class[] paramsClassTypes, Class returnType) {
+    public StabilityArguments(Object[] paramsArray, Object current, boolean isStatic, int methodNumber, Class[] paramsClassTypes, Class returnType) {
         this.paramsArray = paramsArray;
         this.current = current;
         this.isStatic = isStatic;

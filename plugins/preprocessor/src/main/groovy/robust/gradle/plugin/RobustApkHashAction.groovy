@@ -1,6 +1,6 @@
 package robust.gradle.plugin
 
-import com.meituan.robust.Constants
+import com.tokopedia.stability.Constants
 import org.apache.commons.io.IOUtils
 import org.gradle.api.Action
 import org.gradle.api.Project

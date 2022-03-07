@@ -1,4 +1,4 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 import android.content.Context;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by hedex on 16/6/20.
  */
-public abstract class PatchManipulate {
+public abstract class StabilityManipulate {
     /**
      * 获取补丁列表
      *

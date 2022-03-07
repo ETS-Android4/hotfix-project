@@ -1,4 +1,4 @@
-package com.meituan.robust.patch.annotaion;
+package com.tokopedia.stability.patch.annotaion;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

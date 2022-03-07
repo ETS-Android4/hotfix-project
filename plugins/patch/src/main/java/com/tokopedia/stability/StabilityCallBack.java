@@ -1,4 +1,4 @@
-package com.meituan.robust;
+package com.tokopedia.stability;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  * Created by hedex on 17/1/22.
  */
 
-public interface RobustCallBack {
+public interface StabilityCallBack {
     /**
      * 获取补丁列表后，回调此方法
      *

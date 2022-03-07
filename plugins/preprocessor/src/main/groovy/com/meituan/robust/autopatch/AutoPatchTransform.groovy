@@ -2,7 +2,7 @@ package com.meituan.robust.autopatch
 
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.meituan.robust.Constants
+import com.tokopedia.stability.Constants
 import com.meituan.robust.utils.JavaUtils
 import com.meituan.robust.utils.SmaliTool
 import javassist.CannotCompileException
