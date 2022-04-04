@@ -36,8 +36,8 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 dependencies {
-    api project(':plugins:autopatchbase')
-//    implementation 'com.robust.plugins:autopatchbase:2.0.0'
+//    api project(':plugins:stability')
+//    implementation 'com.tokopedia.patch:stability:2.0.5'
 }
 
 //apply from: '../gradle_mvn_push.gradle'

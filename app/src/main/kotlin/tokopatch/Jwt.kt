@@ -77,7 +77,7 @@ class Jwt {
         val kf: KeyFactory = KeyFactory.getInstance("RSA")
         val privKey = kf.generatePrivate(keySpec)
         val now = Date()
-        val exp = Date().add(10)
+        val exp = Date().add(60)
         val jwt = Jwts.builder()
             .claim("iss", key.iss)
             .claim("target_audience", key.target)

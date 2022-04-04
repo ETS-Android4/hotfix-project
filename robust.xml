@@ -3,7 +3,7 @@
 
     <switch>
         <!--true means to open Robust, please note that even if this value is true, Robust is only enabled in Release mode by default -->
-        <!--false means to turn off Robust, neither Debug nor Release mode will run robust-->
+        <!--false means to turn off Robust, neither Debug nor Release mode will run stability-->
         <turnOnRobust>true</turnOnRobust>
         <!--<turnOnRobust>false</turnOnRobust>-->
 
@@ -52,10 +52,10 @@
         <name>com.example.dynamicfeature.R</name>
     </exceptPackname>
 
-    <!--The package name of the patch, please keep the same as the patch class name set in the fetchPatchList method in the class PatchManipulateImp ( setPatchesInfoImplClassFullName("com.meituan.robust.patch.PatchesInfoImpl")),
+    <!--The package name of the patch, please keep the same as the patch class name set in the fetchPatchList method in the class PatchManipulateImp ( setPatchesInfoImplClassFullName("com.meituan.stability.patch.PatchesInfoImpl")),
     Each app can be customized independently. What needs to be ensured is that the package name set by setPatchesInfoImplClassFullName is the following configuration item, and the class name must be: PatchesInfoImpl-->
     <patchPackname name="patchPackname">
-        <name>com.meituan.robust.patch</name>
+        <name>com.tokopedia.stability.patch</name>
     </patchPackname>
 
     <!--In the automated patch, classes that do not need reflection processing, this configuration item is carefully selected-->

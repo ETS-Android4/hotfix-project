@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
  */
 public class ApkHashUtils {
     private static String robustApkHashValue;
+    public static final String STABILITY_APK_HASH_FILE_NAME = "stability.apkhash";
 
     public static String readRobustApkHash(Context context) {
 
@@ -29,7 +30,7 @@ public class ApkHashUtils {
         }
 
         try {
-            value = readFirstLine(context, Constants.ROBUST_APK_HASH_FILE_NAME);
+            value = readFirstLine(context, STABILITY_APK_HASH_FILE_NAME);
         } catch (Throwable throwable) {
 
         }

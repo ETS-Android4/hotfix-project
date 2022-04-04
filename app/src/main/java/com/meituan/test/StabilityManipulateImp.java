@@ -58,7 +58,7 @@ public class StabilityManipulateImp extends StabilityManipulate {
         patch.setLocalPath(Environment.getExternalStorageDirectory().getPath()+ File.separator+"Download"+File.separator + "patch");
         //setPatchesInfoImplClassFullName The setting item of each app can be customized independently. It needs to be ensured that the package name set by setPatchesInfoImplClassFullName is consistent with the xml configuration item patchPackname, and the class name must be: PatchesInfoImpl
         //Please note the settings here
-        patch.setPatchesInfoImplClassFullName("com.meituan.robust.patch.PatchesInfoImpl");
+        patch.setPatchesInfoImplClassFullName("com.tokopedia.stability.patch.PatchesInfoImpl");
         List  patches = new ArrayList<Patch>();
         patches.add(patch);
         return patches;

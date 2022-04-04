@@ -1,8 +1,8 @@
 ###Fixed official low version gradle compilation problems and Java9 compilation errors. Two plug-ins are packaged for the problematic version. You only need to adjust the original
 
 ```
-classpath'com.meituan.robust:gradle-plugin:0.4.99'
-classpath'com.meituan.robust:auto-patch-plugin:0.4.99'
+classpath'com.tokopedia.stability:gradle-plugin:0.4.99'
+classpath'com.tokopedia.stability:auto-patch-plugin:0.4.99'
 ```
 
 Change to

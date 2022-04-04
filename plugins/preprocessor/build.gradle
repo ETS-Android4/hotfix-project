@@ -19,7 +19,7 @@ plugins {
 
 group = 'com.tokopedia.patch'
 archivesBaseName = 'preprocessor'
-version = '2.0.5'
+version = '2.0.6'
 
 compileGroovy {
     sourceCompatibility = 1.7
@@ -40,7 +40,7 @@ dependencies {
     implementation 'org.javassist:javassist:3.28.0-GA'
     implementation fileTree(dir: "./src/main/libs", include: ['*.jar'])
     implementation 'org.ow2.asm:asm:9.1'
-    implementation 'com.tokopedia.patch:autopatchbase:2.0.5'
+    implementation 'com.tokopedia.patch:core:1.0.0'
 }
 
 sourceSets {

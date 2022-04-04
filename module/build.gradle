@@ -6,7 +6,7 @@ buildscript {
         maven { url 'https://maven-hansel.tokopedia.com/maven' }
     }
     dependencies {
-        classpath 'io.hansel.preprocessor:preprocessor:9.1.2-dev'
+        classpath 'io.hansel.preprocessor:preprocessor:9.1.5'
     }
 }
 

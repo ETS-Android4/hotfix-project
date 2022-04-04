@@ -13,7 +13,7 @@ buildscript {
         maven { url 'https://maven-hansel.tokopedia.com/maven' }
     }
     dependencies {
-        classpath 'io.hansel.preprocessor:preprocessor:9.1.2-dev'
+        classpath 'io.hansel.preprocessor:preprocessor:9.1.5'
     }
 }
 
@@ -94,6 +94,7 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp:2.5.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'org.javassist:javassist:3.28.0-GA'
+    implementation 'com.tokopedia.patch:core:1.0.0'
     implementation project(':plugins:patch')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
